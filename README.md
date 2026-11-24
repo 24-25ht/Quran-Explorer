@@ -39,17 +39,19 @@
 
 > **Theme disclaimer:** These screenshots were taken in **Warm Sepia** and **Dark Mode**. They will appear the same only if you select the corresponding theme and reading-comfort settings; other settings may change the appearance.
 
-<div align="center">
+<div align="center" style="display:flex; overflow-x:auto; gap:12px; padding:8px 0;">
 
-<img src="./Screenshot_20261124_210424_Quran%20Explorer.jpg" alt="Quran Explorer Screenshot 1" width="220">
-<img src="./Screenshot_20261124_223607_Quran%20Explorer.jpg" alt="Quran Explorer Screenshot 2" width="220">
-<img src="./Screenshot_20261124_223616_Quran%20Explorer.jpg" alt="Quran Explorer Screenshot 3" width="220">
-<img src="./Screenshot_20261124_223624_Quran%20Explorer.jpg" alt="Quran Explorer Screenshot 4" width="220">
-<img src="./Screenshot_20261124_223632_Quran%20Explorer.jpg" alt="Quran Explorer Screenshot 5" width="220">
-<img src="./Screenshot_20261124_223640_Quran%20Explorer.jpg" alt="Quran Explorer Screenshot 6" width="220">
-<img src="./Screenshot_20261124_223651_Quran%20Explorer.jpg" alt="Quran Explorer Screenshot 7" width="220">
+<img src="./Screenshot_20261124_210424_Quran%20Explorer.jpg" alt="Quran Explorer Screenshot 1" width="190">
+<img src="./Screenshot_20261124_223607_Quran%20Explorer.jpg" alt="Quran Explorer Screenshot 2" width="190">
+<img src="./Screenshot_20261124_223616_Quran%20Explorer.jpg" alt="Quran Explorer Screenshot 3" width="190">
+<img src="./Screenshot_20261124_223624_Quran%20Explorer.jpg" alt="Quran Explorer Screenshot 4" width="190">
+<img src="./Screenshot_20261124_223632_Quran%20Explorer.jpg" alt="Quran Explorer Screenshot 5" width="190">
+<img src="./Screenshot_20261124_223640_Quran%20Explorer.jpg" alt="Quran Explorer Screenshot 6" width="190">
+<img src="./Screenshot_20261124_223651_Quran%20Explorer.jpg" alt="Quran Explorer Screenshot 7" width="190">
 
 </div>
+
+*Swipe or scroll horizontally to browse the screenshots.*
 
 ---
 
