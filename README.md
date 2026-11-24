@@ -13,7 +13,7 @@
 
 **An offline-first Holy Quran application built with Kotlin, Jetpack Compose, Material Design 3, and a modular hardware-accelerated WebView reader.**
 
-[Download Latest APK](https://github.com/24-25ht/Quran-Explorer/releases/download/v3.5-Taurus/QuranExplorer-v3.5.apk) · [Key Features](#key-features) · [Architecture](#technical-architecture) · [Building from Source](#building-from-source)
+[Download Latest APK](https://github.com/24-25ht/Quran-Explorer/releases/download/v3.5-Taurus/QuranExplorer-v3.5.apk) · [Screenshots](#screenshots) · [Key Features](#key-features) · [Architecture](#technical-architecture) · [Building from Source](#building-from-source)
 
 </div>
 
@@ -32,6 +32,26 @@
 1. Download an APK from the table above.
 2. Open the `.apk` file on your Android device and tap **Install** (enable **Install unknown apps** if prompted).
 3. Launch **Quran Explorer** and begin reading or downloading offline audio and tafsirs.
+
+---
+
+## Screenshots
+
+> **Theme note:** These screenshots show the app in **Warm Sepia** and **Dark Mode**. Your app will look the same only if you select the corresponding theme and reading-comfort settings; other settings may change its appearance.
+
+<div align="center">
+
+<img src="./Screenshot_20261124_210424_Quran%20Explorer.jpg" alt="Quran Explorer screenshot 1" width="220">
+<img src="./Screenshot_20261124_223607_Quran%20Explorer.jpg" alt="Quran Explorer screenshot 2" width="220">
+<img src="./Screenshot_20261124_223616_Quran%20Explorer.jpg" alt="Quran Explorer screenshot 3" width="220">
+<img src="./Screenshot_20261124_223624_Quran%20Explorer.jpg" alt="Quran Explorer screenshot 4" width="220">
+<img src="./Screenshot_20261124_223632_Quran%20Explorer.jpg" alt="Quran Explorer screenshot 5" width="220">
+<img src="./Screenshot_20261124_223640_Quran%20Explorer.jpg" alt="Quran Explorer screenshot 6" width="220">
+<img src="./Screenshot_20261124_223651_Quran%20Explorer.jpg" alt="Quran Explorer screenshot 7" width="220">
+
+</div>
+
+See the [screenshot index](./screenshots/README.md) for the ordered image list.
 
 ---
 
