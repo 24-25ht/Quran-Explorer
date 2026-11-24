@@ -1,5 +1,8 @@
 # Quran Explorer
 
+*This app was porter as a final upgrade for [Gen 2 legacy](https://github.com/rabayakhanam82-a11y/Quran-Exploer)
+ 
+
 <div align="center">
 
 [![Android Version](https://img.shields.io/badge/Android-7.0%2B%20(API%2024%2B)-10C98F?style=for-the-badge&logo=android&logoColor=white)](https://developer.android.com)
