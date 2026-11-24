@@ -37,21 +37,19 @@
 
 ## Screenshots
 
-> **Theme note:** These screenshots show the app in **Warm Sepia** and **Dark Mode**. Your app will look the same only if you select the corresponding theme and reading-comfort settings; other settings may change its appearance.
+> **Theme disclaimer:** These screenshots were taken in **Warm Sepia** and **Dark Mode**. They will appear the same only if you select the corresponding theme and reading-comfort settings; other settings may change the appearance.
 
 <div align="center">
 
-<img src="./Screenshot_20261124_210424_Quran%20Explorer.jpg" alt="Quran Explorer screenshot 1" width="220">
-<img src="./Screenshot_20261124_223607_Quran%20Explorer.jpg" alt="Quran Explorer screenshot 2" width="220">
-<img src="./Screenshot_20261124_223616_Quran%20Explorer.jpg" alt="Quran Explorer screenshot 3" width="220">
-<img src="./Screenshot_20261124_223624_Quran%20Explorer.jpg" alt="Quran Explorer screenshot 4" width="220">
-<img src="./Screenshot_20261124_223632_Quran%20Explorer.jpg" alt="Quran Explorer screenshot 5" width="220">
-<img src="./Screenshot_20261124_223640_Quran%20Explorer.jpg" alt="Quran Explorer screenshot 6" width="220">
-<img src="./Screenshot_20261124_223651_Quran%20Explorer.jpg" alt="Quran Explorer screenshot 7" width="220">
+<img src="./Screenshot_20261124_210424_Quran%20Explorer.jpg" alt="Quran Explorer Screenshot 1" width="220">
+<img src="./Screenshot_20261124_223607_Quran%20Explorer.jpg" alt="Quran Explorer Screenshot 2" width="220">
+<img src="./Screenshot_20261124_223616_Quran%20Explorer.jpg" alt="Quran Explorer Screenshot 3" width="220">
+<img src="./Screenshot_20261124_223624_Quran%20Explorer.jpg" alt="Quran Explorer Screenshot 4" width="220">
+<img src="./Screenshot_20261124_223632_Quran%20Explorer.jpg" alt="Quran Explorer Screenshot 5" width="220">
+<img src="./Screenshot_20261124_223640_Quran%20Explorer.jpg" alt="Quran Explorer Screenshot 6" width="220">
+<img src="./Screenshot_20261124_223651_Quran%20Explorer.jpg" alt="Quran Explorer Screenshot 7" width="220">
 
 </div>
-
-See the [screenshot index](./screenshots/README.md) for the ordered image list.
 
 ---
 
