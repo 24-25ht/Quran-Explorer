@@ -13,7 +13,7 @@
 
 **An offline-first Holy Quran application built with Kotlin, Jetpack Compose, Material Design 3, and a modular hardware-accelerated WebView reader.**
 
-[Download Latest APK](#direct-apk-download) · [Key Features](#key-features) · [Architecture](#technical-architecture) · [Release Notes](./RELEASE_NOTES.md) · [GitHub Repo](https://github.com/AbdullahKarim/Quran-Explorer)
+[Download Latest APK](https://github.com/24-25ht/Quran-Explorer/releases/download/v3.5-Taurus/QuranExplorer-v3.5.apk) · [Key Features](#key-features) · [Architecture](#technical-architecture) · [Release Notes](./RELEASE_NOTES.md) · [GitHub Repo](https://github.com/AbdullahKarim/Quran-Explorer)
 
 </div>
 
