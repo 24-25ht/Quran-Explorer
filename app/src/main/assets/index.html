@@ -1,0 +1,1756 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Quran Explorer - Complete Offline Quranic Application</title>
+    <meta name="theme-color" content="#070C10">
+    <link rel="stylesheet" href="styles.css?v=24">
+    <script>
+        (function () {
+            try {
+                var m = /(?:^|\?|&)appbuild=(\d+)/.exec(location.search || '');
+                var APP_BUILD = m ? m[1] : '24';
+                var prev = localStorage.getItem('app_build');
+                if (prev !== APP_BUILD) {
+                    localStorage.setItem('app_build_purged', prev || 'none');
+                    localStorage.setItem('app_build', APP_BUILD);
+                }
+            } catch (e) {}
+        })();
+    </script>
+</head>
+
+<body>
+    <!-- Instant lightweight HTML splash veil (dismissed immediately on DOM mount) -->
+    <div class="app-splash-overlay splash-hidden" id="appSplashOverlay" aria-hidden="true" style="display: none;"></div>
+
+    <!-- Clean Vector SVG Sprite (Zero Emojis / Crisp Stroke Precision) -->
+    <svg style="display: none;" xmlns="http://www.w3.org/2000/svg">
+        <symbol id="icon-rub" viewBox="0 0 24 24">
+            <rect x="5.5" y="5.5" width="13" height="13" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.8"/>
+            <rect x="5.5" y="5.5" width="13" height="13" rx="1.6" transform="rotate(45 12 12)" fill="none" stroke="currentColor" stroke-width="1.8"/>
+            <circle cx="12" cy="12" r="2.1" fill="currentColor"/>
+        </symbol>
+        <symbol id="icon-bars" viewBox="0 0 24 24">
+            <path d="M4 6.5h16M4 12h16M4 17.5h12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </symbol>
+        <symbol id="icon-arrow-left" viewBox="0 0 24 24">
+            <path d="M19 12H5M12 19l-7-7 7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </symbol>
+        <symbol id="icon-arrow-right" viewBox="0 0 24 24">
+            <path d="M5 12h14M12 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </symbol>
+        <symbol id="icon-arrow-up" viewBox="0 0 24 24">
+            <path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </symbol>
+        <symbol id="icon-search" viewBox="0 0 24 24">
+            <circle cx="10.5" cy="10.5" r="7" fill="none" stroke="currentColor" stroke-width="2"/>
+            <path d="M20.5 20.5l-4.6-4.6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </symbol>
+        <symbol id="icon-cog" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.9"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"/>
+        </symbol>
+        <symbol id="icon-sliders" viewBox="0 0 24 24">
+            <line x1="4" y1="7" x2="20" y2="7" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>
+            <line x1="4" y1="12" x2="20" y2="12" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>
+            <line x1="4" y1="17" x2="20" y2="17" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>
+            <circle cx="9" cy="7" r="2" fill="currentColor"/>
+            <circle cx="15" cy="12" r="2" fill="currentColor"/>
+            <circle cx="10" cy="17" r="2" fill="currentColor"/>
+        </symbol>
+        <symbol id="icon-filter" viewBox="0 0 24 24">
+            <polygon points="3 5 21 5 14 13 14 19 10 21 10 13 3 5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/>
+        </symbol>
+        <symbol id="icon-palette" viewBox="0 0 24 24">
+            <path d="M12 3a9 9 0 0 0 0 18c1.4 0 2-.8 2-1.8 0-.5-.2-1-.2-1.4 0-.8.7-1.5 1.5-1.5H17a4 4 0 0 0 4-4C21 7 17 3 12 3z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/>
+            <circle cx="8" cy="10" r="1.2" fill="currentColor"/>
+            <circle cx="11.5" cy="7.5" r="1.2" fill="currentColor"/>
+            <circle cx="15.5" cy="10" r="1.2" fill="currentColor"/>
+        </symbol>
+        <symbol id="icon-sun" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="1.9"/>
+            <path d="M12 2.5v2.2M12 19.3v2.2M4.9 4.9l1.6 1.6M17.5 17.5l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.9 19.1l1.6-1.6M17.5 6.5l1.6-1.6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>
+        </symbol>
+        <symbol id="icon-moon" viewBox="0 0 24 24">
+            <path d="M20.5 13.4A8.5 8.5 0 1 1 10.6 3.5a6.8 6.8 0 0 0 9.9 9.9z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/>
+        </symbol>
+        <symbol id="icon-home" viewBox="0 0 24 24">
+            <path d="M3 10.5L12 3l9 7.5V20a1.5 1.5 0 0 1-1.5 1.5H4.5A1.5 1.5 0 0 1 3 20v-9.5z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/>
+            <path d="M9.5 21.5v-6.5h5v6.5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/>
+        </symbol>
+        <symbol id="icon-book-open" viewBox="0 0 24 24">
+            <path d="M2 4h6.5A3.5 3.5 0 0 1 12 7.5V20a2.5 2.5 0 0 0-2.5-2.5H2V4zM22 4h-6.5A3.5 3.5 0 0 0 12 7.5V20a2.5 2.5 0 0 1 2.5-2.5H22V4z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/>
+        </symbol>
+        <symbol id="icon-list" viewBox="0 0 24 24">
+            <line x1="8" y1="6.5" x2="20" y2="6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <line x1="8" y1="12" x2="20" y2="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <line x1="8" y1="17.5" x2="20" y2="17.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="4.5" cy="6.5" r="1.2" fill="currentColor"/>
+            <circle cx="4.5" cy="12" r="1.2" fill="currentColor"/>
+            <circle cx="4.5" cy="17.5" r="1.2" fill="currentColor"/>
+        </symbol>
+        <symbol id="icon-layer-group" viewBox="0 0 24 24">
+            <path d="M12 3L2.5 8 12 13l9.5-5L12 3zM2.5 12.5L12 17.5l9.5-5M2.5 17L12 22l9.5-5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+        </symbol>
+        <symbol id="icon-compass" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.9"/>
+            <polygon points="15.5 8.5 13.5 13.5 8.5 15.5 10.5 10.5 15.5 8.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+        </symbol>
+        <symbol id="icon-chart-line" viewBox="0 0 24 24">
+            <path d="M4 4v16h16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M7.5 15.5l4-4 3.5 3.5 4.5-6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+        </symbol>
+        <symbol id="icon-hands-praying" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.9"/>
+            <path d="M12 7v5l3 2.5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+        </symbol>
+        <symbol id="icon-mosque" viewBox="0 0 24 24">
+            <path d="M12 3.2c-2.6 1.8-4.5 4.3-4.5 6.8h9c0-2.5-1.9-5-4.5-6.8zM4.5 10h15v10h-15V10z" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linejoin="round"/>
+            <path d="M10 20v-4a2 2 0 1 1 4 0v4M12 2v1.2" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round"/>
+        </symbol>
+        <symbol id="icon-font" viewBox="0 0 24 24">
+            <path d="M5 19L12 5l7 14M7.5 14h9" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+        </symbol>
+        <symbol id="icon-book" viewBox="0 0 24 24">
+            <path d="M4.5 19A2.5 2.5 0 0 1 7 16.5H19.5V3.5H7A2.5 2.5 0 0 0 4.5 6v13z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/>
+            <path d="M4.5 19A2.5 2.5 0 0 0 7 21.5h12.5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>
+        </symbol>
+        <symbol id="icon-info-circle" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.9"/>
+            <line x1="12" y1="16" x2="12" y2="11.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="12" cy="8.2" r="1.1" fill="currentColor"/>
+        </symbol>
+        <symbol id="icon-bookmark" viewBox="0 0 24 24">
+            <path d="M6.5 4h11a1 1 0 0 1 1 1v15.5L12 16l-6.5 4.5V5a1 1 0 0 1 1-1z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/>
+        </symbol>
+        <symbol id="icon-play" viewBox="0 0 24 24">
+            <polygon points="7 5 19 12 7 19 7 5" fill="currentColor"/>
+        </symbol>
+        <symbol id="icon-pause" viewBox="0 0 24 24">
+            <rect x="6" y="5" width="4" height="14" rx="1" fill="currentColor"/>
+            <rect x="14" y="5" width="4" height="14" rx="1" fill="currentColor"/>
+        </symbol>
+        <symbol id="icon-step-backward" viewBox="0 0 24 24">
+            <polygon points="18 19 9 12 18 5 18 19" fill="currentColor"/>
+            <line x1="6" y1="5" x2="6" y2="19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </symbol>
+        <symbol id="icon-step-forward" viewBox="0 0 24 24">
+            <polygon points="6 5 15 12 6 19 6 5" fill="currentColor"/>
+            <line x1="18" y1="5" x2="18" y2="19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </symbol>
+        <symbol id="icon-redo" viewBox="0 0 24 24">
+            <path d="M20 4v5h-5M20 13a8 8 0 1 1-2.4-5.7L20 9" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+        </symbol>
+        <symbol id="icon-volume-up" viewBox="0 0 24 24">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/>
+            <path d="M15.5 8.5a5 5 0 0 1 0 7M18.8 5.5a9.5 9.5 0 0 1 0 13" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>
+        </symbol>
+        <symbol id="icon-volume" viewBox="0 0 24 24">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/>
+            <path d="M15.5 8.5a5 5 0 0 1 0 7M18.8 5.5a9.5 9.5 0 0 1 0 13" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>
+        </symbol>
+        <symbol id="icon-check" viewBox="0 0 24 24">
+            <polyline points="20 6 9 17 4 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </symbol>
+        <symbol id="icon-check-circle" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.9"/>
+            <polyline points="8.5 12.2 11 14.8 15.8 9.6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </symbol>
+        <symbol id="icon-circle" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.9"/>
+        </symbol>
+        <symbol id="icon-times" viewBox="0 0 24 24">
+            <line x1="18" y1="6" x2="6" y2="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <line x1="6" y1="6" x2="18" y2="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </symbol>
+        <symbol id="icon-copy" viewBox="0 0 24 24">
+            <rect x="9" y="9" width="11" height="11" rx="2" fill="none" stroke="currentColor" stroke-width="1.9"/>
+            <path d="M5 15H4.5A1.5 1.5 0 0 1 3 13.5V4.5A1.5 1.5 0 0 1 4.5 3h9A1.5 1.5 0 0 1 15 4.5V5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>
+        </symbol>
+        <symbol id="icon-trash" viewBox="0 0 24 24">
+            <polyline points="3 6 5 6 21 6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>
+            <path d="M18.5 6l-.8 13a1.5 1.5 0 0 1-1.5 1.5H7.8a1.5 1.5 0 0 1-1.5-1.5L5.5 6M9.5 6V4a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v2" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+        </symbol>
+        <symbol id="icon-chevron-down" viewBox="0 0 24 24">
+            <polyline points="6 9 12 15 18 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </symbol>
+        <symbol id="icon-download" viewBox="0 0 24 24">
+            <path d="M20 15.5v3a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18.5v-3M7.5 10.5L12 15l4.5-4.5M12 14.5V4" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+        </symbol>
+        <symbol id="icon-headphones" viewBox="0 0 24 24">
+            <path d="M3.5 17v-5a8.5 8.5 0 0 1 17 0v5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>
+            <rect x="3.5" y="13.5" width="4" height="6" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.9"/>
+            <rect x="16.5" y="13.5" width="4" height="6" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.9"/>
+        </symbol>
+        <symbol id="icon-cloud" viewBox="0 0 24 24">
+            <path d="M17.5 19H7a4.5 4.5 0 0 1-.8-8.9A6 6 0 0 1 17.8 9a4.2 4.2 0 0 1-.3 10z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/>
+        </symbol>
+        <symbol id="icon-map-pin" viewBox="0 0 24 24">
+            <path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 1 1 13 0c0 5.4-6.5 11-6.5 11z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/>
+            <circle cx="12" cy="10" r="2.3" fill="none" stroke="currentColor" stroke-width="1.9"/>
+        </symbol>
+        <symbol id="icon-github" viewBox="0 0 24 24">
+            <path d="M12 2.5a9.5 9.5 0 0 0-3 18.5c.48.09.65-.2.65-.45v-1.6c-2.66.58-3.22-1.13-3.22-1.13-.43-1.1-1.06-1.4-1.06-1.4-.87-.59.07-.58.07-.58.96.07 1.46.98 1.46.98.85 1.46 2.24 1.04 2.78.79.09-.62.33-1.04.6-1.28-2.12-.24-4.35-1.06-4.35-4.72 0-1.04.37-1.9.98-2.57-.1-.24-.42-1.21.09-2.53 0 0 .8-.26 2.62.98a9.1 9.1 0 0 1 4.76 0c1.82-1.24 2.62-.98 2.62-.98.51 1.32.19 2.29.09 2.53.61.67.98 1.53.98 2.57 0 3.67-2.23 4.48-4.36 4.71.34.3.65.88.65 1.78v2.64c0 .25.17.55.66.45A9.5 9.5 0 0 0 12 2.5z" fill="currentColor"/>
+        </symbol>
+        <symbol id="icon-external-link" viewBox="0 0 24 24">
+            <path d="M14 5h5v5M10 14L19 5M19 13v5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 18V7.5A1.5 1.5 0 0 1 6.5 6H11" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+        </symbol>
+    </svg>
+
+    <!-- FIXED CLEAN HEADER -->
+    <header class="top-bar">
+        <div class="top-bar-left">
+            <div class="top-left-controls">
+                <button class="menu-toggle" id="menuToggle" onclick="window.toggleMenu(event)" title="Open Navigation Menu" aria-label="Open Navigation Menu">
+                    <svg class="app-icon"><use href="#icon-bars"/></svg>
+                </button>
+                <button class="section-back-btn" id="sectionBackBtn" title="Back" aria-label="Back to previous section" disabled>
+                    <svg class="app-icon"><use href="#icon-arrow-left"/></svg>
+                </button>
+            </div>
+            <span class="top-bar-logo" onclick="showSection('home')" style="cursor: pointer;">
+                <svg class="app-icon" style="color: var(--gold);"><use href="#icon-rub"/></svg>
+                <span class="logo-title">Quran Explorer</span>
+            </span>
+        </div>
+
+        <div class="top-bar-center">
+            <div class="top-search-box">
+                <input type="text" id="topSearchInput" placeholder="Search Quran..." aria-label="Search Quran">
+                <button id="topSearchBtn" type="button" aria-label="Run Search">
+                    <svg class="app-icon"><use href="#icon-search"/></svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="top-bar-right">
+            <button class="top-bar-btn" id="topDownloadsBtn" title="Offline Downloads" aria-label="Offline Downloads">
+                <svg class="app-icon"><use href="#icon-download"/></svg>
+                <span class="desktop-only">Downloads</span>
+            </button>
+            <button class="top-bar-btn" id="quickSettingsBtn" title="Quick Settings" aria-label="Quick Settings">
+                <svg class="app-icon"><use href="#icon-cog"/></svg>
+            </button>
+            <button class="top-bar-btn" id="themeToggle" title="Toggle Dark or Light Theme" aria-label="Toggle Theme">
+                <svg class="app-icon" id="themeIcon"><use href="#icon-sun"/></svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- TOP-LEVEL QUICK SETTINGS OVERLAY (RENDERED OUTSIDE .top-bar TO PREVENT CLIPPING) -->
+    <div class="quick-settings-backdrop" id="quickSettingsBackdrop"></div>
+    <aside class="quick-settings-dropdown" id="quickSettingsDropdown" aria-label="Quick Settings Panel">
+        <div class="quick-header-row">
+            <div class="quick-title">
+                <svg class="app-icon"><use href="#icon-sliders"/></svg>
+                <span>Quick Settings</span>
+            </div>
+            <button class="inline-drawer-close" id="quickSettingsCloseBtn" type="button" aria-label="Close Quick Settings">
+                <svg class="app-icon"><use href="#icon-times"/></svg>
+            </button>
+        </div>
+
+        <div class="quick-group-label">Recitation &amp; Speed</div>
+        <div class="quick-setting-item">
+            <label for="quickReciterSelect">Audio Reciter</label>
+            <select id="quickReciterSelect" class="form-select"></select>
+        </div>
+        <div id="quickReciterShortcutBox" style="display: none;">
+            <button type="button" class="quick-shortcut-btn" id="quickDownloadShortcutBtn">
+                <svg class="app-icon"><use href="#icon-download"/></svg>
+                <span id="quickDownloadShortcutText">Manage Offline Audio</span>
+            </button>
+        </div>
+        <div class="quick-speed-block">
+            <div style="font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 6px;">Playback Speed</div>
+            <div class="quick-speed-buttons">
+                <button type="button" class="quick-chip-btn quick-speed-btn" data-speed="0.75">0.75x</button>
+                <button type="button" class="quick-chip-btn quick-speed-btn active" data-speed="1">1.0x</button>
+                <button type="button" class="quick-chip-btn quick-speed-btn" data-speed="1.25">1.25x</button>
+                <button type="button" class="quick-chip-btn quick-speed-btn" data-speed="1.5">1.5x</button>
+            </div>
+        </div>
+
+        <div class="quick-group-label">Script &amp; Translation</div>
+        <div class="quick-setting-item">
+            <label for="quickScriptSelect">Arabic Script</label>
+            <select id="quickScriptSelect" class="form-select">
+                <option value="uthmani">Uthmani (Hafs)</option>
+                <option value="indopak">IndoPak (Nastaleeq)</option>
+                <option value="imlaei">Imla'i (Naskh)</option>
+            </select>
+        </div>
+        <div class="quick-setting-item">
+            <label for="quickTranslationSelect">Secondary Language</label>
+            <select id="quickTranslationSelect" class="form-select">
+                <option value="161">Bengali (Zakaria)</option>
+                <option value="97">Urdu (Ahmed Ali)</option>
+                <option value="234">French (Hamidullah)</option>
+                <option value="None">None</option>
+            </select>
+        </div>
+        <div class="quick-setting-item">
+            <label>Always Show English</label>
+            <button class="quick-switch-btn active" id="quickAlwaysEnglishToggle" type="button" aria-label="Always Show English"></button>
+        </div>
+
+        <div class="quick-group-label">Study &amp; Eye Care</div>
+        <div class="quick-setting-item">
+            <label>Tajweed Highlights</label>
+            <button class="quick-switch-btn active" id="quickTajweedToggle" type="button" aria-label="Toggle Tajweed Colors"></button>
+        </div>
+        <div class="quick-adv-buttons">
+            <button class="quick-chip-btn active" type="button" id="quickTajweedBasicBtn">Basic Rules</button>
+            <button class="quick-chip-btn" type="button" id="quickTajweedAdvancedBtn">Full Color</button>
+            <button class="quick-chip-btn" type="button" id="quickTajweedGuideBtn">Guide</button>
+        </div>
+        <div class="quick-setting-item quick-comfort-row">
+            <label style="display: flex; align-items: center; gap: 6px;">
+                <span>Reading Comfort</span>
+                <span class="quick-comfort-tag">Sepia</span>
+            </label>
+            <button class="quick-switch-btn" id="quickComfortToggle" type="button" aria-label="Toggle Reading Comfort Sepia Mode"></button>
+        </div>
+
+        <div class="quick-footer-row">
+            <span style="font-size: 0.74rem; color: var(--text-muted); font-weight: 700;">v3.5 · Build 24</span>
+            <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                <button type="button" class="btn btn-primary btn-sm" id="quickAllSettingsBtn">
+                    <svg class="app-icon"><use href="#icon-cog"/></svg>
+                    <span>All Settings</span>
+                </button>
+                <button type="button" class="btn btn-secondary btn-sm" id="quickReleasesBtn">
+                    <svg class="app-icon"><use href="#icon-check-circle"/></svg>
+                    <span>Notes</span>
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- SIDEBAR BACKDROP & NAVIGATION DRAWER -->
+    <div class="overlay" id="overlay" onclick="window.closeMenu(event)"></div>
+    <nav class="sidebar" id="sidebar" aria-label="Main Navigation">
+        <div class="sidebar-header">
+            <div class="sidebar-brand">
+                <svg class="app-icon" style="color: var(--gold); font-size: 1.5rem;"><use href="#icon-rub"/></svg>
+                <div>
+                    <div class="sidebar-brand-title">Quran Explorer</div>
+                    <div class="sidebar-brand-sub">Offline Studio</div>
+                </div>
+            </div>
+            <button class="sidebar-close-btn" id="sidebarCloseBtn" onclick="window.closeMenu(event)" title="Close menu" aria-label="Close menu">
+                <svg class="app-icon"><use href="#icon-times"/></svg>
+            </button>
+        </div>
+
+        <div class="sidebar-nav">
+            <div class="nav-section-title">Quran &amp; Navigation</div>
+            <a class="nav-item active" data-section="home">
+                <svg class="app-icon"><use href="#icon-home"/></svg> Home
+            </a>
+            <a class="nav-item" data-section="read">
+                <svg class="app-icon"><use href="#icon-book-open"/></svg> Read Quran
+            </a>
+            <a class="nav-item" data-section="surahs">
+                <svg class="app-icon"><use href="#icon-list"/></svg> All Surahs (114)
+            </a>
+            <a class="nav-item" data-section="juz">
+                <svg class="app-icon"><use href="#icon-layer-group"/></svg> Juz, Hizb &amp; Pages
+            </a>
+            <a class="nav-item" data-section="search">
+                <svg class="app-icon"><use href="#icon-search"/></svg> Search Quran
+            </a>
+
+            <div class="nav-section-title">Study &amp; Audio</div>
+            <a class="nav-item nav-item-featured" data-section="downloads">
+                <svg class="app-icon" style="color: var(--gold);"><use href="#icon-download"/></svg>
+                <span>Offline Downloads</span>
+                <span class="nav-pill-tag emerald">114</span>
+            </a>
+            <a class="nav-item" data-section="wordbyword">
+                <svg class="app-icon"><use href="#icon-font"/></svg> Word by Word
+            </a>
+            <a class="nav-item" data-section="tafsir">
+                <svg class="app-icon"><use href="#icon-book"/></svg> Tafsir Exegesis
+            </a>
+            <a class="nav-item" data-section="tajweed-guide">
+                <svg class="app-icon"><use href="#icon-info-circle"/></svg> Tajweed Guide
+            </a>
+            <a class="nav-item" data-section="bookmarks">
+                <svg class="app-icon"><use href="#icon-bookmark"/></svg> Bookmarks
+            </a>
+
+            <div class="nav-section-title">Daily Worship</div>
+            <a class="nav-item" data-section="dashboard">
+                <svg class="app-icon"><use href="#icon-chart-line"/></svg> Reading Dashboard
+            </a>
+            <a class="nav-item" data-section="qatar-prayers">
+                <svg class="app-icon"><use href="#icon-mosque"/></svg> Prayer Times
+            </a>
+            <a class="nav-item" data-section="prayers">
+                <svg class="app-icon"><use href="#icon-hands-praying"/></svg> Prayer Tracker
+            </a>
+
+            <div class="nav-section-title">Preferences &amp; About</div>
+            <a class="nav-item" data-section="settings">
+                <svg class="app-icon"><use href="#icon-cog"/></svg> Settings
+            </a>
+            <a class="nav-item" data-section="releases">
+                <svg class="app-icon" style="color: var(--gold);"><use href="#icon-check-circle"/></svg> Releases &amp; Notes
+                <span class="nav-pill-tag">v3.5</span>
+            </a>
+            <a class="nav-item" data-section="about">
+                <svg class="app-icon" style="color: var(--accent);"><use href="#icon-info-circle"/></svg> About
+            </a>
+        </div>
+
+        <div class="sidebar-footer">
+            <span>Quran Explorer v3.5</span>
+            <span style="color: var(--gold); font-weight: 700;">Build 24</span>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT WORKSPACE -->
+    <main class="main-content" id="mainContent">
+
+        <!-- 1. HOME SECTION -->
+        <section class="section active" id="section-home">
+            <div class="card card-hero">
+                <div class="hero-eyebrow">
+                    <svg class="app-icon"><use href="#icon-rub"/></svg>
+                    <span>100% Offline Complete Mushaf</span>
+                </div>
+                <h2 class="card-title" style="font-size: 1.38rem;">Recite, Reflect, and Study</h2>
+                <p class="hero-sub">All 114 Surahs, 6,236 Ayahs, multi-reciter audio caching, word-by-word morphology, multilingual tafsir, and regional prayer times.</p>
+
+                <div class="form-group" style="margin-top: 16px; margin-bottom: 12px;">
+                    <label class="form-label" for="quickSurahSelect">Jump to Surah</label>
+                    <select class="form-select" id="quickSurahSelect">
+                        <option value="">Select Surah...</option>
+                    </select>
+                </div>
+
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                    <button class="btn btn-primary" id="startReadingBtn" type="button">
+                        <svg class="app-icon"><use href="#icon-play"/></svg>
+                        <span>Start Reading</span>
+                    </button>
+                    <button class="btn btn-secondary" type="button" onclick="showSection('surahs')">
+                        <svg class="app-icon"><use href="#icon-list"/></svg>
+                        <span>Browse Surahs</span>
+                    </button>
+                    <button class="btn btn-secondary" type="button" onclick="showSection('qatar-prayers')">
+                        <svg class="app-icon"><use href="#icon-mosque"/></svg>
+                        <span>Prayer Times</span>
+                    </button>
+                </div>
+
+                <div class="home-quick-grid">
+                    <button type="button" class="home-tile-btn" onclick="showSection('juz'); switchJuzNavTab('juz');">
+                        <div class="home-tile-icon"><svg class="app-icon"><use href="#icon-layer-group"/></svg></div>
+                        <div>
+                            <div class="home-tile-title">Juz &amp; Hizb</div>
+                            <div class="home-tile-sub">30 Juz · 60 Hizb · 604 Pp.</div>
+                        </div>
+                    </button>
+                    <button type="button" class="home-tile-btn" onclick="showSection('downloads')">
+                        <div class="home-tile-icon gold"><svg class="app-icon"><use href="#icon-headphones"/></svg></div>
+                        <div>
+                            <div class="home-tile-title">Offline Audio</div>
+                            <div class="home-tile-sub">6 World-Class Reciters</div>
+                        </div>
+                    </button>
+                    <button type="button" class="home-tile-btn" onclick="showSection('wordbyword')">
+                        <div class="home-tile-icon"><svg class="app-icon"><use href="#icon-font"/></svg></div>
+                        <div>
+                            <div class="home-tile-title">Word Study</div>
+                            <div class="home-tile-sub">Transliteration &amp; Roots</div>
+                        </div>
+                    </button>
+                    <button type="button" class="home-tile-btn" onclick="showSection('search')">
+                        <div class="home-tile-icon gold"><svg class="app-icon"><use href="#icon-search"/></svg></div>
+                        <div>
+                            <div class="home-tile-title">Smart Search</div>
+                            <div class="home-tile-sub">Surahs, Ayahs &amp; Filters</div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value">114</div>
+                    <div class="stat-label">Surahs</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">6,236</div>
+                    <div class="stat-label">Ayahs</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">30</div>
+                    <div class="stat-label">Juz / 60 Hizb</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">604</div>
+                    <div class="stat-label">Mushaf Pages</div>
+                </div>
+            </div>
+
+            <div class="card" id="continueReadingCard" style="display: none;">
+                <div class="card-header" style="margin-bottom: 0;">
+                    <div>
+                        <div class="card-title" style="font-size: 1.05rem;">Continue Reading</div>
+                        <div id="continueSub" style="font-size: 0.84rem; color: var(--text-secondary); margin-top: 3px;"></div>
+                    </div>
+                    <button class="btn btn-primary btn-sm" id="continueReadingBtn" type="button">
+                        <span>Resume</span>
+                        <svg class="app-icon"><use href="#icon-arrow-right"/></svg>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. READ SECTION -->
+        <section class="section" id="section-read">
+            <div class="card">
+                <div class="read-header-top">
+                    <div class="read-header-meta">
+                        <h2 class="card-title" id="readingSurahTitle">Al-Fatihah</h2>
+                        <div id="readSurahSub" class="section-subtitle"></div>
+                        <div id="readSurahLocSummary" class="loc-meta-text" style="margin-top: 3px;"></div>
+                    </div>
+                    <div class="read-actions-bar">
+                        <button class="btn btn-primary btn-sm read-action-primary" id="readPlayFullSurahBtn" type="button">
+                            <svg class="app-icon"><use href="#icon-play"/></svg>
+                            <span>Play Surah</span>
+                        </button>
+                        <button class="btn btn-secondary btn-sm" id="readDownloadSurahBtn" type="button">
+                            <svg class="app-icon"><use href="#icon-download"/></svg>
+                            <span id="readDownloadBtnText">Download Audio</span>
+                        </button>
+                        <button class="btn btn-secondary btn-sm" id="readTajweedBtn" type="button" title="Toggle Tajweed Highlighting">
+                            <svg class="app-icon"><use href="#icon-palette"/></svg>
+                            <span id="readTajweedBtnText">Tajweed: On</span>
+                        </button>
+                        <button class="btn btn-secondary btn-sm" id="readComfortBtn" type="button" title="Toggle Reading Comfort Warm Sepia">
+                            <svg class="app-icon"><use href="#icon-sun"/></svg>
+                            <span id="readComfortBtnText">Comfort</span>
+                        </button>
+                        <button class="btn btn-secondary btn-sm" id="backToSurahListBtn" type="button">
+                            <svg class="app-icon"><use href="#icon-list"/></svg>
+                            <span>All Surahs</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="read-controls-grid">
+                    <div>
+                        <label class="form-label" for="readSurahSelect">Change Surah</label>
+                        <select class="form-select" id="readSurahSelect"></select>
+                    </div>
+                    <div>
+                        <label class="form-label" for="gotoVerseInput">Jump to Ayah</label>
+                        <div class="input-go-row">
+                            <input type="number" class="form-input" id="gotoVerseInput" placeholder="Ayah #" min="1">
+                            <button class="btn btn-primary btn-sm" id="gotoVerseBtn" type="button">Go</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="versesContainer"></div>
+        </section>
+
+        <!-- 3. DOWNLOADS SECTION -->
+        <section class="section" id="section-downloads">
+            <div class="downloads-banner">
+                <div class="downloads-banner-info">
+                    <h3><svg class="app-icon" style="color: var(--gold);"><use href="#icon-download"/></svg> Offline Audio &amp; Study Library</h3>
+                    <p>Download studio-mastered recitations and browse built-in offline translations and classical tafsirs.</p>
+                </div>
+                <div class="dl-storage-group">
+                    <div class="storage-usage-pill">
+                        <span class="storage-usage-label">Saved:</span> <span id="storageUsageBadge" style="color: var(--gold);">0 MB</span>
+                    </div>
+                    <button class="btn btn-secondary btn-sm" id="clearAllDownloadsBtn" type="button" style="color: var(--danger);">
+                        <svg class="app-icon"><use href="#icon-trash"/></svg>
+                        <span>Clear Audio</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Full Quran Batch Download Card -->
+            <div class="card card-hero" id="downloadAllSectionCard">
+                <div class="card-header" style="align-items: flex-start;">
+                    <div class="dl-hero-copy">
+                        <div class="hero-eyebrow" style="margin-bottom: 6px;">Full Quran Offline Package</div>
+                        <h2 class="card-title">Download All 114 Surahs</h2>
+                        <p class="hero-sub">Store complete recitation audio for your active Qari so all 6,236 Ayahs play instantly offline.</p>
+                    </div>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <button class="btn btn-primary" id="downloadAllBtn" type="button" onclick="window.startDownloadAll()">
+                            <svg class="app-icon"><use href="#icon-download"/></svg>
+                            <span>Download All (114)</span>
+                        </button>
+                        <button class="btn btn-secondary" id="cancelDownloadAllBtn" type="button" onclick="window.cancelDownloadAll()" style="display: none; color: var(--gold); border-color: var(--gold);">
+                            <svg class="app-icon"><use href="#icon-pause"/></svg>
+                            <span>Pause</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="dl-reciter-bar">
+                    <div class="dl-reciter-select-wrap">
+                        <label for="downloadAllReciterSelect" style="font-size: 0.82rem; color: var(--text-secondary); font-weight: 600;">Active Reciter:</label>
+                        <select id="downloadAllReciterSelect" class="form-select" onchange="window.onDownloadAllReciterChange(this.value)"></select>
+                    </div>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+                        <div id="downloadAllStatusBadge" class="dl-status-pill">Checking status...</div>
+                        <button class="btn btn-secondary btn-sm" id="clearFullQuranBtn" type="button" onclick="window.clearFullQuranAudio()" style="display: none; color: var(--danger);">
+                            <svg class="app-icon"><use href="#icon-trash"/></svg>
+                            <span>Remove Reciter Audio</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="downloadAllProgressBox" class="dl-progress-box" style="display: none;">
+                    <div class="progress-track">
+                        <div id="downloadAllProgressFill" class="progress-fill"></div>
+                    </div>
+                    <div class="dl-progress-meta">
+                        <span id="downloadAllProgressText" style="color: var(--gold); font-weight: 700;">Preparing download...</span>
+                        <span id="downloadAllProgressStats" style="color: var(--text-secondary);">0 / 114 Surahs</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Juz 30 Quick Batch Card -->
+            <div class="card">
+                <div class="card-header" style="margin-bottom: 0;">
+                    <div class="dl-hero-copy">
+                        <h3 class="card-title" style="font-size: 1.04rem; color: var(--gold);">Batch Download: Juz 30 (Juz Amma)</h3>
+                        <p class="hero-sub">Save Surahs 78 to 114 (37 short chapters) in one tap for daily prayers.</p>
+                    </div>
+                    <button class="btn btn-primary btn-sm" id="downloadJuz30Btn" type="button">
+                        <svg class="app-icon"><use href="#icon-download"/></svg>
+                        <span>Download Juz 30</span>
+                    </button>
+                </div>
+                <div id="juz30ProgressBar" class="surah-dl-progress-bar">
+                    <div id="juz30ProgressFill" class="surah-dl-progress-fill"></div>
+                </div>
+                <div id="juz30ProgressText" style="font-size: 0.82rem; color: var(--gold); margin-top: 6px; display: none;"></div>
+            </div>
+
+            <div class="downloads-tabs">
+                <button class="downloads-tab-btn active" id="tabBtnAudio" type="button">
+                    <svg class="app-icon"><use href="#icon-headphones"/></svg>
+                    <span>Audio</span>
+                </button>
+                <button class="downloads-tab-btn" id="tabBtnTranslations" type="button">
+                    <svg class="app-icon"><use href="#icon-book-open"/></svg>
+                    <span>Translations</span>
+                </button>
+                <button class="downloads-tab-btn" id="tabBtnTafsir" type="button">
+                    <svg class="app-icon"><use href="#icon-book"/></svg>
+                    <span>Tafsir</span>
+                </button>
+            </div>
+
+            <div id="dlTabContentAudio">
+                <div class="reciters-grid" id="recitersGridContainer"></div>
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <h3 class="card-title" id="surahDlCatalogTitle">Surah Audio Catalog</h3>
+                            <div class="section-subtitle" id="surahDlCatalogSub">Download or stream individual Surahs</div>
+                        </div>
+                        <div class="dl-catalog-controls">
+                            <div class="dl-filter-pills">
+                                <button class="btn btn-secondary btn-sm active" id="dlFilterAll" type="button">All</button>
+                                <button class="btn btn-secondary btn-sm" id="dlFilterDownloaded" type="button">Saved</button>
+                                <button class="btn btn-secondary btn-sm" id="dlFilterJuz30" type="button">Juz 30</button>
+                            </div>
+                            <input type="text" id="dlSurahSearchInput" class="form-input section-search-input" placeholder="Search Surah...">
+                        </div>
+                    </div>
+                    <div class="surah-dl-list" id="surahDlListContainer"></div>
+                </div>
+            </div>
+
+            <div id="dlTabContentTranslations" style="display: none;">
+                <div class="reciters-grid" id="translationsDlContainer"></div>
+            </div>
+
+            <div id="dlTabContentTafsir" style="display: none;">
+                <div class="card" style="margin-bottom: 12px;">
+                    <div class="tafsir-dl-toolbar">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 10px;">
+                            <div style="min-width: 0; flex: 1;">
+                                <h3 class="card-title">Multilingual Tafsir Library</h3>
+                                <div class="section-subtitle">Sorted alphabetically by language (Arabic, Bangla, English, Indonesian, Kurdish, Russian, Urdu). Cached locally in IndexedDB for offline reading.</div>
+                            </div>
+                            <button type="button" class="btn btn-secondary btn-sm" id="tafsirRefreshCatalogBtn">
+                                <svg class="app-icon"><use href="#icon-redo"/></svg>
+                                <span>Refresh Catalog</span>
+                            </button>
+                        </div>
+                        <div class="tafsir-dl-controls">
+                            <div class="dl-filter-pills">
+                                <button type="button" class="btn btn-secondary btn-sm active" id="tafsirFilterAllBtn">All Languages</button>
+                                <button type="button" class="btn btn-secondary btn-sm" id="tafsirFilterInstalledBtn">Downloaded</button>
+                            </div>
+                            <input type="text" id="tafsirDlSearchInput" class="form-input section-search-input" placeholder="Filter language or tafsir (e.g. Bangla)..." aria-label="Filter tafsir languages">
+                        </div>
+                    </div>
+                </div>
+                <div id="tafsirDlContainer"></div>
+            </div>
+        </section>
+
+        <!-- 4. ALL SURAHS SECTION -->
+        <section class="section" id="section-surahs">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">All 114 Surahs</h2>
+                    <input type="text" id="surahFilterInput" class="form-input section-search-input" placeholder="Filter by name or number...">
+                </div>
+                <div class="surah-list" id="surahList"></div>
+            </div>
+        </section>
+
+        <!-- 5. JUZ / HIZB / PAGES NAVIGATION SECTION -->
+        <section class="section" id="section-juz">
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <h2 class="card-title">Juz, Hizb &amp; Page Navigator</h2>
+                        <div style="font-size: 0.83rem; color: var(--text-secondary); margin-top: 2px;">Jump cleanly to the start of any of the 30 Juz, 60 Hizb, or 604 Mushaf pages.</div>
+                    </div>
+                    <div class="segmented-control" role="tablist" aria-label="Navigation Divisions">
+                        <button type="button" class="segmented-tab juz-nav-tab active" data-nav-tab="juz" onclick="switchJuzNavTab('juz')">Juz (30)</button>
+                        <button type="button" class="segmented-tab juz-nav-tab" data-nav-tab="hizb" onclick="switchJuzNavTab('hizb')">Hizb (60)</button>
+                        <button type="button" class="segmented-tab juz-nav-tab" data-nav-tab="pages" onclick="switchJuzNavTab('pages')">Pages (1-604)</button>
+                    </div>
+                </div>
+
+                <div class="surah-list" id="juzList"></div>
+                <div class="hizb-grid" id="hizbList" style="display: none;"></div>
+
+                <div id="pageJumpPanel" style="display: none;">
+                    <div class="page-jump-card">
+                        <label class="form-label" for="pageJumpInput">Jump to Mushaf Page (1 to 604)</label>
+                        <div style="display: flex; gap: 8px;">
+                            <input type="number" id="pageJumpInput" class="form-input" min="1" max="604" placeholder="Enter page number (e.g. 293)">
+                            <button type="button" class="btn btn-primary" id="pageJumpGoBtn">Open Page</button>
+                        </div>
+                        <div class="loc-meta-text" style="margin-top: 10px;">Popular Mushaf Landmarks</div>
+                        <div class="page-shortcuts-grid" id="pageShortcutsGrid"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. SEARCH & FILTERING SECTION -->
+        <section class="section" id="section-search">
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <h2 class="card-title">Search Surahs &amp; Ayahs</h2>
+                        <div style="font-size: 0.83rem; color: var(--text-secondary); margin-top: 2px;">Matches plain Surah names/numbers alongside Ayah text and S:V references, organized into separate sections.</div>
+                    </div>
+                    <button type="button" class="btn btn-secondary btn-sm" id="searchResetFiltersBtn">Reset Filters</button>
+                </div>
+
+                <div style="display: flex; gap: 8px;">
+                    <input type="text" class="form-input" id="searchInput" placeholder="Search Surah name (e.g. Kahf), 2:255, or keyword...">
+                    <button class="btn btn-secondary btn-sm" id="searchClearBtn" type="button" aria-label="Clear search query">
+                        <svg class="app-icon"><use href="#icon-times"/></svg>
+                    </button>
+                    <button class="btn btn-primary" id="searchBtn" type="button">
+                        <svg class="app-icon"><use href="#icon-search"/></svg>
+                        <span>Search</span>
+                    </button>
+                </div>
+
+                <div class="filter-bar">
+                    <div class="filter-row">
+                        <span class="filter-row-label">Results:</span>
+                        <button type="button" class="filter-chip search-scope-chip active" data-scope="all" onclick="setSearchScope('all')">All (Surahs + Ayahs)</button>
+                        <button type="button" class="filter-chip search-scope-chip" data-scope="surahs" onclick="setSearchScope('surahs')">Surahs Only</button>
+                        <button type="button" class="filter-chip search-scope-chip" data-scope="ayahs" onclick="setSearchScope('ayahs')">Ayahs Only</button>
+                        <button type="button" class="filter-chip search-scope-chip danger-active" data-scope="none" onclick="setSearchScope('none')">Filter Out All</button>
+                    </div>
+                    <div class="filter-row">
+                        <span class="filter-row-label">Origin:</span>
+                        <button type="button" class="filter-chip search-rev-chip active" data-rev="all" onclick="setSearchRevelation('all')">All Revelations</button>
+                        <button type="button" class="filter-chip search-rev-chip" data-rev="meccan" onclick="setSearchRevelation('meccan')">Meccan</button>
+                        <button type="button" class="filter-chip search-rev-chip" data-rev="medinan" onclick="setSearchRevelation('medinan')">Medinan</button>
+                    </div>
+                </div>
+
+                <div id="searchResults" style="margin-top: 16px;">
+                    <div style="color: var(--text-secondary); padding: 18px; text-align: center;">
+                        Search by Surah name or number (e.g. <strong>Yasin</strong>, <strong>18</strong>), reference (<strong>2:255</strong>), or keyword (<strong>mercy</strong>, <strong>patience</strong>).
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. PRAYER TIMES SECTION -->
+        <section class="section" id="section-qatar-prayers">
+            <div class="card">
+                <div class="card-header prayer-card-header">
+                    <div style="min-width: 0; flex: 1 1 200px;">
+                        <h2 class="card-title">Prayer Times</h2>
+                        <div class="section-subtitle" id="qatarDateLabel">Select your region or detect your area via temporary GPS</div>
+                        <div class="prayer-meta-strip" id="prayerCompactBar">
+                            <span id="prayerStatusBadge" class="reciter-badge cloud">Setup Needed</span>
+                            <span id="prayerMethodSummary">Choose area or tap Prayer Settings</span>
+                        </div>
+                    </div>
+                    <div class="prayer-header-actions">
+                        <button class="btn btn-secondary btn-sm" id="prayerMiniSettingsToggleBtn" type="button">
+                            <svg class="app-icon"><use href="#icon-sliders"/></svg>
+                            <span>Prayer Settings</span>
+                        </button>
+                        <button class="btn btn-secondary btn-sm" type="button" onclick="showSection('prayers')">Daily Tracker</button>
+                    </div>
+                </div>
+
+                <!-- Prayer-Only Collapsible Mini Settings Panel (Auto-opens on first visit until configured) -->
+                <div class="prayer-mini-settings" id="prayerMiniSettingsPanel" style="display: none;">
+                    <div class="prayer-mini-header">
+                        <div style="min-width: 0; flex: 1;">
+                            <div class="prayer-mini-eyebrow" id="prayerMiniEyebrow">Prayer Section Settings</div>
+                            <div class="prayer-location-title" id="prayerLocationTitle">Doha, Qatar</div>
+                        </div>
+                        <button type="button" class="inline-drawer-close" id="prayerMiniSettingsCloseBtn" aria-label="Close Prayer Settings">
+                            <svg class="app-icon"><use href="#icon-times"/></svg>
+                        </button>
+                    </div>
+
+                    <div class="prayer-toolbar-actions">
+                        <button type="button" class="btn btn-primary btn-sm" id="prayerDetectGpsBtn">
+                            <svg class="app-icon"><use href="#icon-map-pin"/></svg>
+                            <span>Detect Area (GPS)</span>
+                        </button>
+                        <button type="button" class="btn btn-secondary btn-sm" id="prayerVerifyOnlineBtn">
+                            <svg class="app-icon"><use href="#icon-cloud"/></svg>
+                            <span>Verify Online</span>
+                        </button>
+                    </div>
+
+                    <div class="prayer-presets-row" aria-label="Quick Regional Presets">
+                        <button type="button" class="filter-chip" onclick="window.applyQuickPrayerPreset('BD', 'dhaka')">Dhaka (BD)</button>
+                        <button type="button" class="filter-chip" onclick="window.applyQuickPrayerPreset('IN', 'new_delhi')">New Delhi (IN)</button>
+                        <button type="button" class="filter-chip" onclick="window.applyQuickPrayerPreset('ID', 'jakarta')">Jakarta (ID)</button>
+                        <button type="button" class="filter-chip" onclick="window.applyQuickPrayerPreset('QA', 'doha')">Doha (QA)</button>
+                    </div>
+
+                    <div class="prayer-location-grid">
+                        <div>
+                            <label class="form-label" for="prayerCountrySelect">Country / Region</label>
+                            <select id="prayerCountrySelect" class="form-select"></select>
+                        </div>
+                        <div>
+                            <label class="form-label" for="prayerCitySelect">City</label>
+                            <select id="prayerCitySelect" class="form-select"></select>
+                        </div>
+                        <div>
+                            <label class="form-label" for="prayerMethodSelect">Calculation Convention</label>
+                            <select id="prayerMethodSelect" class="form-select"></select>
+                        </div>
+                    </div>
+
+                    <div class="prayer-asr-row">
+                        <span style="font-size: 0.8rem; font-weight: 700; color: var(--text-secondary);">Asr Juristic Method</span>
+                        <div class="segmented-control" role="group" aria-label="Asr Calculation School">
+                            <button type="button" class="segmented-tab" id="prayerAsrStandardBtn">Standard (Shafi'i)</button>
+                            <button type="button" class="segmented-tab" id="prayerAsrHanafiBtn">Hanafi (2x Shadow)</button>
+                        </div>
+                    </div>
+
+                    <div class="prayer-mini-footer">
+                        <button type="button" class="btn btn-primary btn-sm" id="prayerMiniSettingsDoneBtn">
+                            <svg class="app-icon"><use href="#icon-check"/></svg>
+                            <span>Apply &amp; Show Timetable</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Immediate Prayer Countdown & Schedule (Visible Above the Fold) -->
+                <div class="prayer-countdown-banner" id="qatarNextPrayerBanner"></div>
+                <div class="prayer-table" id="qatarPrayersTable"></div>
+            </div>
+        </section>
+
+        <!-- 8. PRAYER TRACKER SECTION -->
+        <section class="section" id="section-prayers">
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <h2 class="card-title">Daily Prayer Checklist</h2>
+                        <div style="font-size: 0.83rem; color: var(--text-secondary); margin-top: 2px;">Log daily prayers to build your consistency streak offline.</div>
+                    </div>
+                    <button class="btn btn-secondary btn-sm" type="button" onclick="showSection('qatar-prayers')">View Timetable</button>
+                </div>
+                <div class="prayer-table" id="prayerTable"></div>
+            </div>
+        </section>
+
+        <!-- 9. DASHBOARD & STREAK SECTION -->
+        <section class="section" id="section-dashboard">
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <h2 class="card-title">Personal Reading Dashboard</h2>
+                        <div style="font-size: 0.83rem; color: var(--text-secondary); margin-top: 2px;">Progress across Ayahs marked read, bookmarks, and active daily streak.</div>
+                    </div>
+                </div>
+                <div class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));">
+                    <div class="stat-card">
+                        <div class="stat-value" id="dashAyahsRead">0</div>
+                        <div class="stat-label">Ayahs Marked Read</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="dashStreak">0</div>
+                        <div class="stat-label">Day Streak</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="dashBookmarks">0</div>
+                        <div class="stat-label">Saved Bookmarks</div>
+                    </div>
+                </div>
+                <div class="dash-completion-card">
+                    <div class="dash-completion-row">
+                        <span style="font-size: 0.86rem; font-weight: 700;">Quran Completion</span>
+                        <span id="dashCompletionPct" style="font-size: 0.82rem; font-weight: 700; color: var(--gold);">0.0% (0 / 6,236 Ayahs)</span>
+                    </div>
+                    <div class="progress-track">
+                        <div class="progress-fill" id="dashCompletionFill"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 10. WORD BY WORD SECTION -->
+        <section class="section" id="section-wordbyword">
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <h2 class="card-title">Word-by-Word Analysis</h2>
+                        <div class="section-subtitle">Tap any word for audio pronunciation, transliteration, and root meaning.</div>
+                    </div>
+                    <div class="tafsir-scale-group" aria-label="Word Tile Text Size">
+                        <button type="button" class="btn btn-secondary btn-sm" id="wbwScaleDownBtn" aria-label="Decrease Word Size">A-</button>
+                        <span id="wbwScaleLabel" style="font-size: 0.76rem; font-weight: 700; color: var(--text-secondary); min-width: 38px; text-align: center;">100%</span>
+                        <button type="button" class="btn btn-secondary btn-sm" id="wbwScaleUpBtn" aria-label="Increase Word Size">A+</button>
+                    </div>
+                </div>
+                <div class="wbw-selector-bar">
+                    <select class="form-select wbw-surah-select" id="wbwSurahSelect" aria-label="Word by Word Surah"></select>
+                    <select class="form-select wbw-verse-select" id="wbwVerseSelect" aria-label="Word by Word Ayah"></select>
+                    <div class="wbw-step-btns">
+                        <button type="button" class="btn btn-secondary btn-sm" id="wbwPrevVerseBtn" title="Previous Ayah" aria-label="Previous Ayah">
+                            <svg class="app-icon"><use href="#icon-step-backward"/></svg>
+                        </button>
+                        <button type="button" class="btn btn-secondary btn-sm" id="wbwNextVerseBtn" title="Next Ayah" aria-label="Next Ayah">
+                            <svg class="app-icon"><use href="#icon-step-forward"/></svg>
+                        </button>
+                    </div>
+                </div>
+                <div id="wbwContainer"></div>
+            </div>
+        </section>
+
+        <!-- 11. TAFSIR SECTION -->
+        <section class="section" id="section-tafsir">
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <h2 class="card-title">Tafsir Commentary</h2>
+                        <div class="section-subtitle">Switch between built-in classics or downloaded multilingual tafsirs (including Bangla).</div>
+                    </div>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+                        <div class="tafsir-scale-group" aria-label="Tafsir Font Size">
+                            <button type="button" class="btn btn-secondary btn-sm" id="tafsirScaleDownBtn" aria-label="Decrease Tafsir Font Size">A-</button>
+                            <span id="tafsirScaleLabel" style="font-size: 0.76rem; font-weight: 700; color: var(--text-secondary); min-width: 38px; text-align: center;">100%</span>
+                            <button type="button" class="btn btn-secondary btn-sm" id="tafsirScaleUpBtn" aria-label="Increase Tafsir Font Size">A+</button>
+                        </div>
+                        <button type="button" class="btn btn-primary btn-sm" id="tafsirOpenDownloadsBtn">
+                            <svg class="app-icon"><use href="#icon-download"/></svg>
+                            <span>Download Tafsirs</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="tafsir-reader-controls">
+                    <select class="form-select" id="tafsirSurahSelect" style="flex: 2 1 160px;" aria-label="Tafsir Surah"></select>
+                    <select class="form-select" id="tafsirVerseSelect" style="flex: 0 0 96px;" aria-label="Tafsir Ayah"></select>
+                    <select class="form-select" id="tafsirEditionSelect" style="flex: 2 1 200px;" aria-label="Tafsir Edition"></select>
+                </div>
+                <div id="tafsirContainer"></div>
+            </div>
+        </section>
+
+        <!-- 12. BOOKMARKS SECTION -->
+        <section class="section" id="section-bookmarks">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Saved Bookmarks</h2>
+                    <button class="btn btn-secondary btn-sm" id="clearBookmarksBtn" type="button">
+                        <svg class="app-icon"><use href="#icon-trash"/></svg>
+                        <span>Clear All</span>
+                    </button>
+                </div>
+                <div id="bookmarksList"></div>
+            </div>
+        </section>
+
+        <!-- 13. TAJWEED GUIDE SECTION -->
+        <section class="section" id="section-tajweed-guide">
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <h2 class="card-title">Tajweed Color Rules Guide</h2>
+                        <div style="font-size: 0.83rem; color: var(--text-secondary); margin-top: 2px;">Color legend used in Basic Rules and Full Color reading modes.</div>
+                    </div>
+                </div>
+                <div class="tajweed-rule-list">
+                    <div class="tajweed-rule-row">
+                        <div class="tajweed-swatch" style="background: var(--tajweed-ghunnah);"></div>
+                        <div><b>Ghunnah / Iqlab</b> — Nasalized pronunciation held for 2 counts on Noon or Meem Mushaddadah and Iqlab transitions.</div>
+                    </div>
+                    <div class="tajweed-rule-row">
+                        <div class="tajweed-swatch" style="background: var(--tajweed-ikhfa);"></div>
+                        <div><b>Ikhfa &amp; Ikhfa Shafawi</b> — Light nasal concealment when Noon Sakinah or Meem Sakinah meets concealed letters.</div>
+                    </div>
+                    <div class="tajweed-rule-row">
+                        <div class="tajweed-swatch" style="background: var(--tajweed-idgham);"></div>
+                        <div><b>Idgham</b> — Smooth merging/assimilation of adjacent letters with or without nasal resonance.</div>
+                    </div>
+                    <div class="tajweed-rule-row">
+                        <div class="tajweed-swatch" style="background: var(--tajweed-qalqalah);"></div>
+                        <div><b>Qalqalah</b> — Crisp echoing resonance on Qaf, Ta, Ba, Jim, and Dal when resting with Sukoon.</div>
+                    </div>
+                    <div class="tajweed-rule-row">
+                        <div class="tajweed-swatch" style="background: var(--tajweed-madd);"></div>
+                        <div><b>Madd Elongations</b> — Natural (2 counts), Permissible (4-5 counts), and Necessary (6 counts) vowel prolongation.</div>
+                    </div>
+                    <div class="tajweed-rule-row">
+                        <div class="tajweed-swatch" style="background: var(--tajweed-lam);"></div>
+                        <div><b>Lam Shamsiyah &amp; Silent Letters</b> — Unpronounced letters absorbed smoothly during connected recitation (Full Color mode).</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 14. COMPLETE SETTINGS SECTION -->
+        <section class="section" id="section-settings">
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <h2 class="card-title">Settings</h2>
+                        <div class="section-subtitle">Configure reading typography, default translations, tafsir edition, recitation audio, and prayer preferences.</div>
+                    </div>
+                    <button type="button" class="btn btn-secondary btn-sm" id="settingsResetDefaultsBtn">
+                        <svg class="app-icon"><use href="#icon-redo"/></svg>
+                        <span>Reset Defaults</span>
+                    </button>
+                </div>
+
+                <!-- Live Typography & Script Preview -->
+                <div class="settings-preview-card" id="settingsTypographyPreview">
+                    <div class="settings-preview-label">Live Verse Preview</div>
+                    <div class="arabic-text" id="settingsPreviewArabic" style="margin-bottom: 8px;">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</div>
+                    <div class="translation-text" id="settingsPreviewTrans" style="margin-bottom: 0;">In the name of Allah, the Entirely Merciful, the Especially Merciful.</div>
+                </div>
+
+                <!-- Group 1: Appearance & Eye Comfort -->
+                <div class="settings-group">
+                    <div class="settings-group-title">Appearance &amp; Eye Care</div>
+                    <div class="settings-row">
+                        <div class="settings-row-info">
+                            <div class="settings-row-label">App Theme</div>
+                            <div class="settings-row-sub">Switch between Obsidian Dark and Warm Alabaster Light</div>
+                        </div>
+                        <div class="segmented-control" role="group" aria-label="Theme Selection">
+                            <button type="button" class="segmented-tab" id="settingsThemeDarkBtn">Dark</button>
+                            <button type="button" class="segmented-tab" id="settingsThemeLightBtn">Light</button>
+                        </div>
+                    </div>
+                    <div class="settings-row">
+                        <div class="settings-row-info">
+                            <div class="settings-row-label">Reading Comfort (Warm Sepia)</div>
+                            <div class="settings-row-sub">Soft warm espresso surfaces with gold-taupe borders to ease eye strain</div>
+                        </div>
+                        <button type="button" class="quick-switch-btn" id="settingsComfortToggle" aria-label="Toggle Reading Comfort"></button>
+                    </div>
+                </div>
+
+                <!-- Group 2: Quran Text, Script & Font Sizes -->
+                <div class="settings-group">
+                    <div class="settings-group-title">Quran Script &amp; Text Sizing</div>
+                    <div class="settings-row">
+                        <div class="settings-row-info">
+                            <div class="settings-row-label">Arabic Mushaf Script</div>
+                            <div class="settings-row-sub">Select classical Uthmani, IndoPak, or simplified Imla'i script</div>
+                        </div>
+                        <select id="settingsScriptSelect" class="form-select settings-select">
+                            <option value="uthmani">Uthmani (Hafs)</option>
+                            <option value="indopak">IndoPak (Nastaleeq)</option>
+                            <option value="imlaei">Imla'i (Naskh)</option>
+                        </select>
+                    </div>
+
+                    <div class="settings-slider-block">
+                        <div class="settings-slider-top">
+                            <label class="settings-row-label" for="settingsArabicSizeRange">Arabic Text Size</label>
+                            <span class="settings-value-pill" id="settingsArabicSizeValue">25 px</span>
+                        </div>
+                        <div class="settings-slider-controls">
+                            <button type="button" class="btn btn-secondary btn-sm" id="settingsArabicSizeDownBtn" aria-label="Decrease Arabic Size">A-</button>
+                            <input type="range" id="settingsArabicSizeRange" class="settings-range" min="20" max="42" step="1" value="25">
+                            <button type="button" class="btn btn-secondary btn-sm" id="settingsArabicSizeUpBtn" aria-label="Increase Arabic Size">A+</button>
+                        </div>
+                    </div>
+
+                    <div class="settings-slider-block">
+                        <div class="settings-slider-top">
+                            <label class="settings-row-label" for="settingsTransSizeRange">Translation Text Size</label>
+                            <span class="settings-value-pill" id="settingsTransSizeValue">15 px</span>
+                        </div>
+                        <div class="settings-slider-controls">
+                            <button type="button" class="btn btn-secondary btn-sm" id="settingsTransSizeDownBtn" aria-label="Decrease Translation Size">A-</button>
+                            <input type="range" id="settingsTransSizeRange" class="settings-range" min="12" max="22" step="1" value="15">
+                            <button type="button" class="btn btn-secondary btn-sm" id="settingsTransSizeUpBtn" aria-label="Increase Translation Size">A+</button>
+                        </div>
+                    </div>
+
+                    <div class="settings-row">
+                        <div class="settings-row-info">
+                            <div class="settings-row-label">Word-by-Word Tile Size</div>
+                            <div class="settings-row-sub">Scale Arabic &amp; English cards inside Word Study</div>
+                        </div>
+                        <div class="tafsir-scale-group">
+                            <button type="button" class="btn btn-secondary btn-sm" id="settingsWbwScaleDownBtn">A-</button>
+                            <span id="settingsWbwScaleValue" style="font-size: 0.78rem; font-weight: 700; min-width: 40px; text-align: center;">100%</span>
+                            <button type="button" class="btn btn-secondary btn-sm" id="settingsWbwScaleUpBtn">A+</button>
+                        </div>
+                    </div>
+
+                    <div class="settings-row">
+                        <div class="settings-row-info">
+                            <div class="settings-row-label">Tafsir Text Size</div>
+                            <div class="settings-row-sub">Adjust commentary legibility across inline and full readers</div>
+                        </div>
+                        <div class="tafsir-scale-group">
+                            <button type="button" class="btn btn-secondary btn-sm" id="settingsTafsirScaleDownBtn">A-</button>
+                            <span id="settingsTafsirScaleValue" style="font-size: 0.78rem; font-weight: 700; min-width: 40px; text-align: center;">100%</span>
+                            <button type="button" class="btn btn-secondary btn-sm" id="settingsTafsirScaleUpBtn">A+</button>
+                        </div>
+                    </div>
+
+                    <div class="settings-row">
+                        <div class="settings-row-info">
+                            <div class="settings-row-label">Tajweed Color Rules</div>
+                            <div class="settings-row-sub">Highlight pronunciation rules directly in Arabic verses</div>
+                        </div>
+                        <div class="segmented-control" role="group" aria-label="Tajweed Mode">
+                            <button type="button" class="segmented-tab" id="settingsTajweedOffBtn">Off</button>
+                            <button type="button" class="segmented-tab" id="settingsTajweedBasicBtn">Basic</button>
+                            <button type="button" class="segmented-tab" id="settingsTajweedAdvBtn">Full</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Group 3: Translations & Default Tafsir -->
+                <div class="settings-group">
+                    <div class="settings-group-title">Translations &amp; Default Tafsir</div>
+                    <div class="settings-row">
+                        <div class="settings-row-info">
+                            <div class="settings-row-label">Always Show English</div>
+                            <div class="settings-row-sub">Keep Sahih International English visible in Reader</div>
+                        </div>
+                        <button type="button" class="quick-switch-btn active" id="settingsAlwaysEnglishToggle" aria-label="Always Show English"></button>
+                    </div>
+                    <div class="settings-row">
+                        <div class="settings-row-info">
+                            <div class="settings-row-label">Secondary Translation</div>
+                            <div class="settings-row-sub">Bengali, Urdu, French, or hide secondary text</div>
+                        </div>
+                        <select id="settingsTranslationSelect" class="form-select settings-select">
+                            <option value="161">Bengali (Zakaria)</option>
+                            <option value="97">Urdu (Ahmed Ali)</option>
+                            <option value="234">French (Hamidullah)</option>
+                            <option value="None">None</option>
+                        </select>
+                    </div>
+                    <div class="settings-row">
+                        <div class="settings-row-info">
+                            <div class="settings-row-label">Default Tafsir Edition</div>
+                            <div class="settings-row-sub">Used for inline Ayah commentary and Tafsir section</div>
+                        </div>
+                        <div style="display: flex; gap: 6px; flex-wrap: wrap; align-items: center;">
+                            <select id="settingsDefaultTafsirSelect" class="form-select settings-select"></select>
+                            <button type="button" class="btn btn-secondary btn-sm" onclick="openTafsirDownloads()">Download More</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Group 4: Recitation & Audio Preferences -->
+                <div class="settings-group">
+                    <div class="settings-group-title">Recitation &amp; Audio Defaults</div>
+                    <div class="settings-row">
+                        <div class="settings-row-info">
+                            <div class="settings-row-label">Default Qari (Reciter)</div>
+                            <div class="settings-row-sub">Used when streaming or downloading Surahs</div>
+                        </div>
+                        <select id="settingsReciterSelect" class="form-select settings-select"></select>
+                    </div>
+                    <div class="settings-row">
+                        <div class="settings-row-info">
+                            <div class="settings-row-label">Recitation Playback Speed</div>
+                            <div class="settings-row-sub">Applies to both Ayah recitation and Word-by-Word audio</div>
+                        </div>
+                        <div class="quick-speed-buttons" style="min-width: 210px;">
+                            <button type="button" class="quick-chip-btn settings-speed-btn" data-speed="0.75">0.75x</button>
+                            <button type="button" class="quick-chip-btn settings-speed-btn" data-speed="1">1.0x</button>
+                            <button type="button" class="quick-chip-btn settings-speed-btn" data-speed="1.25">1.25x</button>
+                            <button type="button" class="quick-chip-btn settings-speed-btn" data-speed="1.5">1.5x</button>
+                        </div>
+                    </div>
+                    <div class="settings-row">
+                        <div class="settings-row-info">
+                            <div class="settings-row-label">Auto-Play Next Ayah</div>
+                            <div class="settings-row-sub">Automatically continue to the next verse after playback finishes</div>
+                        </div>
+                        <button type="button" class="quick-switch-btn active" id="settingsAutoPlayToggle" aria-label="Auto Play Next Ayah"></button>
+                    </div>
+                    <div class="settings-row">
+                        <div class="settings-row-info">
+                            <div class="settings-row-label">Repeat Current Ayah (Hifz Loop)</div>
+                            <div class="settings-row-sub">Loop the active verse repeatedly for memorization practice</div>
+                        </div>
+                        <button type="button" class="quick-switch-btn" id="settingsRepeatVerseToggle" aria-label="Repeat Ayah Loop"></button>
+                    </div>
+                    <div class="settings-row">
+                        <div class="settings-row-info">
+                            <div class="settings-row-label">Offline Audio Packages</div>
+                            <div class="settings-row-sub">Download individual Surahs or Full 114-Surah Qari sets</div>
+                        </div>
+                        <button type="button" class="btn btn-secondary btn-sm" onclick="showSection('downloads'); switchDownloadsTab('audio');">Manage Downloads</button>
+                    </div>
+                </div>
+
+                <!-- Group 5: Prayer Location Shortcut -->
+                <div class="settings-group" style="margin-bottom: 0;">
+                    <div class="settings-group-title">Prayer Location &amp; Convention</div>
+                    <div class="settings-row">
+                        <div class="settings-row-info">
+                            <div class="settings-row-label">Active Region &amp; Method</div>
+                            <div class="settings-row-sub" id="settingsPrayerSummary">Configured inside the Prayer Times mini settings panel</div>
+                        </div>
+                        <button type="button" class="btn btn-primary btn-sm" id="settingsOpenPrayerConfigBtn">Configure Prayer Settings</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 15. RELEASES & VERSION NOTES SECTION (ZERO EMOJIS) -->
+        <section class="section" id="section-releases">
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <h2 class="card-title">Version History &amp; Release Notes</h2>
+                        <div style="font-size: 0.84rem; color: var(--text-secondary); margin-top: 2px;">Complete release archive for Quran Explorer (v1.0 to v3.5)</div>
+                    </div>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <button class="btn btn-secondary btn-sm" type="button" onclick="window.copyReleaseNotes('3.0-3.5')">
+                            <svg class="app-icon"><use href="#icon-copy"/></svg>
+                            <span>Copy v3.0-v3.5 (Gen 3)</span>
+                        </button>
+                        <button class="btn btn-primary btn-sm" type="button" onclick="window.copyReleaseNotes('all')">
+                            <svg class="app-icon"><use href="#icon-copy"/></svg>
+                            <span>Copy All Notes</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Version 3.5 -->
+            <div class="release-card current-release">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 10px;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span class="release-badge-current">Current Release</span>
+                        <span class="release-badge-version">v3.5 (Build 24)</span>
+                    </div>
+                    <button class="btn btn-secondary btn-sm" type="button" onclick="window.copyReleaseNotes('3.5')">
+                        <svg class="app-icon"><use href="#icon-copy"/></svg> Copy v3.5
+                    </button>
+                </div>
+                <h3 style="color: var(--gold); font-size: 1.02rem; margin-bottom: 4px;">Sifr Mistadir Rendering Fix, Universal Ayah Numbering &amp; Selection-Lock Prevention (Gen 3 Finale)</h3>
+                <div class="release-notes-box" id="releaseNotesContent_3.5">
+                    <strong>Highlights &amp; Improvements:</strong>
+                    <ul>
+                        <li><b>Sifr Mistadir (U+06DF) Multi-Script &amp; Tajweed-Off Fix:</b> Resolved the outlined dotted-circle rendering defect on silent letters (e.g., <code>كَفَرُوا۟</code>) caused by KFGQPC Hafs mapping <code>U+06DF</code> to a standalone dotted circle and IndoPak Nastaleeq leaving it blank. Added <code>normalizeFontMarksForScript</code> plus Tajweed-off cluster shaping in <code>applyClientTajweedHtml</code> so Sifr Mistadir renders cleanly across Uthmani, IndoPak, Imla'i, Search, and Word-by-Word whether Tajweed is enabled or disabled.</li>
+                        <li><b>Universal Ayah End-Numbering Across All Surahs:</b> Added ornate verse ending markers (<code>﴿1﴾</code>–<code>﴿7﴾</code>) across curated Surahs (Al-Fatihah, Al-Ikhlas, Al-Falaq, An-Nas, Ayat al-Kursi) and introduced a universal <code>ensureVerseEndingNumber</code> guard in <code>renderVerseArabicHtml</code> so every Surah and hydrated Ayah displays its end marker reliably across all scripts.</li>
+                        <li><b>Unselectable Reader Text (No Sticky Selection Lock):</b> Disabled accidental WebView text selection and long-press callouts across Arabic verses, translations, Tafsir panels, and Word-by-Word cards while keeping search and filter inputs editable, preventing Android hardware Back lockups.</li>
+                        <li><b>Complete Generation 3 (v3.0–v3.5) Archive:</b> Expanded in-app, GitHub, and Markdown release notes to cover v3.4 and v3.5 alongside one-tap Generation 3 summary copying.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Version 3.4 -->
+            <div class="release-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 10px;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span class="release-badge-version">v3.4 (Build 23)</span>
+                    </div>
+                    <button class="btn btn-secondary btn-sm" type="button" onclick="window.copyReleaseNotes('3.4')">
+                        <svg class="app-icon"><use href="#icon-copy"/></svg> Copy v3.4
+                    </button>
+                </div>
+                <h3 style="color: var(--gold); font-size: 1.02rem; margin-bottom: 4px;">Audio Bar Cleanup &amp; Android Media Notification Card Polish</h3>
+                <div class="release-notes-box" id="releaseNotesContent_3.4">
+                    <strong>Highlights &amp; Improvements:</strong>
+                    <ul>
+                        <li><b>Removed Cluttered Offline/Stream Badge:</b> Removed the redundant status pill from the compact bottom audio bar to give Surah titles, verse indicators, and Qari names full breathing room on mobile widths.</li>
+                        <li><b>Media Notification Player Card Styling:</b> Upgraded the bottom audio bar with sleek frosted elevation, layered depth gradients, and tactile circular playback controls inspired by native Android lockscreen/notification media widgets.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Version 3.3 -->
+            <div class="release-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 10px;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span class="release-badge-version">v3.3 (Build 22)</span>
+                    </div>
+                    <button class="btn btn-secondary btn-sm" type="button" onclick="window.copyReleaseNotes('3.3')">
+                        <svg class="app-icon"><use href="#icon-copy"/></svg> Copy v3.3
+                    </button>
+                </div>
+                <h3 style="color: var(--gold); font-size: 1.02rem; margin-bottom: 4px;">Bundled Quranic Arabic Fonts, Full Script Switching &amp; Multi-Script Tajweed</h3>
+                <div class="release-notes-box" id="releaseNotesContent_3.3">
+                    <strong>Highlights &amp; Improvements:</strong>
+                    <ul>
+                        <li><b>Bundled Static Arabic Fonts (Zero Missing Glyphs):</b> Replaced the Latin-only Amiri stub and bundled full static <code>Uthmanic Hafs</code>, <code>IndoPak Nastaleeq</code> (with PUA waqf symbols), <code>Noto Naskh Arabic</code>, and full Arabic <code>Amiri</code> inside <code>res/font/</code> with <code>@font-face</code> rules so Quranic marks, madd symbols, and IndoPak letters never fall back to system glyphs or broken boxes offline.</li>
+                        <li><b>True Uthmani, IndoPak &amp; Imla'i Switching:</b> Fixed an issue where Uthmani Tajweed markup overrode IndoPak and Imla'i script selections, synced <code>data-script</code> CSS variables across Reader, Bismillah, Search, Tafsir, Settings Preview, and Word-by-Word, and hydrated full-verse script variants alongside Tajweed data.</li>
+                        <li><b>Universal Multi-Script Tajweed Engine:</b> Expanded API v4 verse hydration with <code>text_uthmani_tajweed</code>, added cluster-safe sanitization and client-side Tajweed highlighting across Uthmani, IndoPak, Imla'i, and Word-by-Word tiles without breaking Arabic cursive ligatures.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Version 3.1 -->
+            <div class="release-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 10px;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span class="release-badge-version">v3.1 (Build 20)</span>
+                    </div>
+                    <button class="btn btn-secondary btn-sm" type="button" onclick="window.copyReleaseNotes('3.1')">
+                        <svg class="app-icon"><use href="#icon-copy"/></svg> Copy v3.1
+                    </button>
+                </div>
+                <h3 style="color: var(--gold); font-size: 1.02rem; margin-bottom: 4px;">Full Settings Hub, Decluttered Prayer Timetable &amp; Word-by-Word Sync</h3>
+                <div class="release-notes-box" id="releaseNotesContent_3.1">
+                    <strong>Highlights &amp; Improvements:</strong>
+                    <ul>
+                        <li><b>Word-by-Word Verse Sync &amp; Authentic Hydration:</b> Fixed Surah/Ayah switching getting stuck or showing mismatched text vs. audio, synced bottom player state with the active Word-by-Word verse, added Prev/Next Ayah buttons, and added IndexedDB v5 verse caching for authentic per-word breakdown across all 114 Surahs.</li>
+                        <li><b>Decluttered Prayer Times + Mini Settings Panel:</b> Placed Next Prayer Countdown and daily schedule cleanly at the top with zero scrolling, fixed location header overlap, and moved GPS, country/city presets, convention, and Asr school into a Prayer-only collapsible mini settings panel that auto-opens on first visit.</li>
+                        <li><b>Complete Settings Screen:</b> Added a dedicated Settings page in the Sidebar and Quick Settings with live typography preview, Arabic/Translation font size sliders, script selector, Tajweed modes, Default Tafsir edition, Default Qari, playback speed, auto-play next Ayah, and Hifz repeat defaults.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Version 3.0 -->
+            <div class="release-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 10px;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span class="release-badge-version">v3.0 (Build 19)</span>
+                    </div>
+                    <button class="btn btn-secondary btn-sm" type="button" onclick="window.copyReleaseNotes('3.0')">
+                        <svg class="app-icon"><use href="#icon-copy"/></svg> Copy v3.0
+                    </button>
+                </div>
+                <h3 style="color: var(--gold); font-size: 1.02rem; margin-bottom: 4px;">Alphabetical Tafsir Library (Bangla &amp; Multilingual), Temporary GPS Prayer Times &amp; Espresso Sepia Polish</h3>
+                <div class="release-notes-box" id="releaseNotesContent_3.0">
+                    <strong>Highlights &amp; Improvements:</strong>
+                    <ul>
+                        <li><b>Word-by-Word Containment &amp; Root Theme Continuity:</b> Fixed word tile overflow across narrow screens and font scaling, and mirrored theme and reading comfort tokens to the document root so short views never reveal a dark bottom seam.</li>
+                        <li><b>Soft Warm Espresso Sepia Mode:</b> Calibrated Dark + Warm Sepia eye comfort with warm espresso surfaces, sage-emerald accents, and gold-taupe hairline borders and inner card lining.</li>
+                        <li><b>Downloads -> Multilingual Tafsir Library:</b> Added an alphabetically grouped Tafsir catalog (Arabic, Bangla, English, Indonesian, Kurdish, Russian, Urdu) with surah-by-surah IndexedDB caching, progress/pause/retry, and direct Quran Reader &amp; Tafsir viewer integration.</li>
+                        <li><b>Global &amp; Regional Prayer Times + Temporary GPS:</b> Fixed solar prayer time calculation math, added single-shot city-level Android GPS area detection (<code>ACCESS_COARSE_LOCATION</code> with immediate stop), and added presets for Bangladesh (IFB), India (Karachi), Indonesia (KEMENAG), Qatar, and international regions with Hanafi/Standard Asr toggles.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Version 2.5 -->
+            <div class="release-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 10px;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span class="release-badge-version">v2.5 (Build 18)</span>
+                    </div>
+                    <button class="btn btn-secondary btn-sm" type="button" onclick="window.copyReleaseNotes('2.5')">
+                        <svg class="app-icon"><use href="#icon-copy"/></svg> Copy v2.5
+                    </button>
+                </div>
+                <h3 style="color: var(--gold); font-size: 1.02rem; margin-bottom: 4px;">Obsidian-Emerald Theme Overhaul, Quick Settings Fix, Juz/Hizb Jump &amp; Reading Comfort</h3>
+                <div class="release-notes-box" id="releaseNotesContent_2.5">
+                    <strong>Highlights &amp; Improvements:</strong>
+                    <ul>
+                        <li><b>Obsidian-Emerald &amp; Warm Alabaster Theme:</b> Redesigned color tokens with crisp hierarchy, emerald primary highlights, champagne-gold accents, and cohesive light theme surfaces.</li>
+                        <li><b>Cohesive Splash Screen:</b> Upgraded Android Compose launch splash and HTML load veil with an 8-point Rub el Hizb crest for smooth startup transitions.</li>
+                        <li><b>Quick Settings Overlay Fix:</b> Detached the Quick Settings drawer into a top-level body layer so it opens cleanly without clipping inside the header bar, adding direct playback speed controls (0.75x to 1.5x).</li>
+                        <li><b>Reading Comfort Mode (Crisp Sepia):</b> Dedicated warm parchment styling for reading cards and Arabic script without blurry CSS image filters, toggleable from Quick Settings and the Read header.</li>
+                        <li><b>Search Surahs, Ayahs &amp; Smart Filters:</b> Plain Surah search paired with Ayah keyword matching, split cleanly into separate Surah and Ayah result sections with Scope (All, Surahs, Ayahs, Filter Out All) and Origin (Meccan, Medinan) chips.</li>
+                        <li><b>Juz (30), Hizb (60) &amp; Page (1-604) Navigator:</b> Tabbed navigator supporting direct jumps to every Juz, Hizb, and Mushaf page alongside compact bottom-left <code>Juz · Hizb · Page</code> metadata on verses.</li>
+                        <li><b>Tool &amp; Preview Fixes:</b> Repaired Downloads tabs/filters, Word-by-Word audio rate and batch sync, Tafsir commentary switcher (Ibn Kathir, Jalalayn, As-Saadi), Qatar live next-prayer countdown, and upgraded Compose Previews.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Version 2.4 -->
+            <div class="release-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;">
+                    <span class="release-badge-version">v2.4 (Build 15)</span>
+                    <button class="btn btn-secondary btn-sm" type="button" onclick="window.copyReleaseNotes('2.4')">
+                        <svg class="app-icon"><use href="#icon-copy"/></svg> Copy v2.4
+                    </button>
+                </div>
+                <div class="release-notes-box" id="releaseNotesContent_2.4">
+                    <strong>Ultra-Smooth 120 FPS Rendering &amp; Virtualization:</strong>
+                    <ul>
+                        <li>Removed heavy backdrop blur filters on fixed headers and bottom player bars in favor of GPU-composited surfaces.</li>
+                        <li>Added CSS layout containment (<code>content-visibility: auto</code>) on verse cards and Surah lists, cutting long chapter render times below 30ms.</li>
+                        <li>Configured passive scroll listeners and <code>requestAnimationFrame</code> throttling for smooth scrolling on high-refresh screens.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Version 2.3 -->
+            <div class="release-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;">
+                    <span class="release-badge-version">v2.3 (Build 14)</span>
+                    <button class="btn btn-secondary btn-sm" type="button" onclick="window.copyReleaseNotes('2.3')">
+                        <svg class="app-icon"><use href="#icon-copy"/></svg> Copy v2.3
+                    </button>
+                </div>
+                <div class="release-notes-box" id="releaseNotesContent_2.3">
+                    <strong>Responsive Orientation, Safe Areas &amp; History Stack:</strong>
+                    <ul>
+                        <li>Adaptive layout spacing across portrait phones, landscape screens, foldables, and tablets.</li>
+                        <li>Edge-to-edge safe-area inset handling preventing overlap with notches and system navigation bars.</li>
+                        <li>Added in-app Back history navigation stack across sections.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Version 2.2 -->
+            <div class="release-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;">
+                    <span class="release-badge-version">v2.2 (Build 13)</span>
+                    <button class="btn btn-secondary btn-sm" type="button" onclick="window.copyReleaseNotes('2.2')">
+                        <svg class="app-icon"><use href="#icon-copy"/></svg> Copy v2.2
+                    </button>
+                </div>
+                <div class="release-notes-box" id="releaseNotesContent_2.2">
+                    <strong>Full Quran (114 Surahs) Batch Downloader &amp; IndexedDB Storage:</strong>
+                    <ul>
+                        <li>Added one-tap batch downloader for all 114 Surahs and Juz 30 with pause/resume support.</li>
+                        <li>Implemented live storage usage calculation and per-reciter cache clearing in IndexedDB.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Version 2.1 -->
+            <div class="release-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;">
+                    <span class="release-badge-version">v2.1 (Build 12)</span>
+                    <button class="btn btn-secondary btn-sm" type="button" onclick="window.copyReleaseNotes('2.1')">
+                        <svg class="app-icon"><use href="#icon-copy"/></svg> Copy v2.1
+                    </button>
+                </div>
+                <div class="release-notes-box" id="releaseNotesContent_2.1">
+                    <strong>Multi-Reciter Audio Engine &amp; Ayah Repeat Mode:</strong>
+                    <ul>
+                        <li>Integrated multi-Qari selection (Alafasy, Abdul Basit, Al-Husary, Al-Ghamdi, Al-Shatri, Minshawi).</li>
+                        <li>Added single-ayah repeat loop for memorization (Hifz) and a persistent quick settings menu.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Version 2.0 -->
+            <div class="release-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;">
+                    <span class="release-badge-version">v2.0 (Builds 9-11)</span>
+                    <button class="btn btn-secondary btn-sm" type="button" onclick="window.copyReleaseNotes('2.0')">
+                        <svg class="app-icon"><use href="#icon-copy"/></svg> Copy v2.0
+                    </button>
+                </div>
+                <div class="release-notes-box" id="releaseNotesContent_2.0">
+                    <strong>Word-by-Word Analysis, Dynamic Tajweed &amp; Tafsir Suite:</strong>
+                    <ul>
+                        <li>Added interactive word-by-word breakdown with transliteration, literal translation, and individual word playback.</li>
+                        <li>Introduced color-coded Tajweed highlighting rules and interactive visual legend.</li>
+                        <li>Added classical Tafsir commentary viewer and personal reading streak dashboard.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Version 1.7 -->
+            <div class="release-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;">
+                    <span class="release-badge-version">v1.7 (Builds 7-8)</span>
+                    <button class="btn btn-secondary btn-sm" type="button" onclick="window.copyReleaseNotes('1.7')">
+                        <svg class="app-icon"><use href="#icon-copy"/></svg> Copy v1.7
+                    </button>
+                </div>
+                <div class="release-notes-box" id="releaseNotesContent_1.7">
+                    <strong>Global Quran Search, Variable Speeds &amp; Script Selection:</strong>
+                    <ul>
+                        <li>Added offline full-text indexing across all 6,236 Ayahs in Arabic and English.</li>
+                        <li>Added variable recitation speeds (0.75x, 1.0x, 1.25x, 1.5x) and dual Uthmani/IndoPak script rendering.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Version 1.5 -->
+            <div class="release-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;">
+                    <span class="release-badge-version">v1.5 (Builds 5-6)</span>
+                    <button class="btn btn-secondary btn-sm" type="button" onclick="window.copyReleaseNotes('1.5')">
+                        <svg class="app-icon"><use href="#icon-copy"/></svg> Copy v1.5
+                    </button>
+                </div>
+                <div class="release-notes-box" id="releaseNotesContent_1.5">
+                    <strong>Juz Navigator, Qatar Solar Prayer Times &amp; Multilingual Translations:</strong>
+                    <ul>
+                        <li>Added 30 Juz index and astronomical solar prayer times calculator for Doha, Qatar.</li>
+                        <li>Expanded offline translations with Bengali, Urdu, and French alongside English.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Version 1.4 -->
+            <div class="release-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;">
+                    <span class="release-badge-version">v1.4 (Build 4)</span>
+                    <button class="btn btn-secondary btn-sm" type="button" onclick="window.copyReleaseNotes('1.4')">
+                        <svg class="app-icon"><use href="#icon-copy"/></svg> Copy v1.4
+                    </button>
+                </div>
+                <div class="release-notes-box" id="releaseNotesContent_1.4">
+                    <strong>Continuous Audio Autoplay &amp; Surah Filtering:</strong>
+                    <ul>
+                        <li>Added continuous verse-to-verse audio playback with scrubbable progress bar.</li>
+                        <li>Added chapter filtering, navigation drawer, and persistent session resume.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Version 1.0 -->
+            <div class="release-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;">
+                    <span class="release-badge-version">v1.0 (Builds 1-3)</span>
+                    <button class="btn btn-secondary btn-sm" type="button" onclick="window.copyReleaseNotes('1.0')">
+                        <svg class="app-icon"><use href="#icon-copy"/></svg> Copy v1.0
+                    </button>
+                </div>
+                <div class="release-notes-box" id="releaseNotesContent_1.0">
+                    <strong>Initial Offline Platform Foundation:</strong>
+                    <ul>
+                        <li>Embedded all 114 Surahs and 6,236 Ayahs for 100% offline Android reading inside a Jetpack Compose WebView container.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 16. ABOUT, CREDITS & GITHUB REPOSITORY SECTION -->
+        <section class="section" id="section-about">
+            <div class="card card-hero">
+                <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 10px;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div style="width: 48px; height: 48px; border-radius: 14px; background: var(--accent-soft); border: 1px solid var(--accent-border); display: flex; align-items: center; justify-content: center; color: var(--gold);">
+                            <svg class="app-icon" style="width: 26px; height: 26px;"><use href="#icon-rub"/></svg>
+                        </div>
+                        <div>
+                            <h2 class="card-title" style="margin: 0;">Quran Explorer</h2>
+                            <div style="font-size: 0.82rem; color: var(--gold); font-weight: 700; margin-top: 2px;">Version 3.5 · Build 24 (Generation 3)</div>
+                        </div>
+                    </div>
+                    <button class="btn btn-secondary btn-sm" type="button" onclick="showSection('releases')">
+                        <svg class="app-icon"><use href="#icon-check-circle"/></svg>
+                        <span>Release Notes</span>
+                    </button>
+                </div>
+                <p style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.65;">
+                    An offline-first Holy Quran study companion engineered for distraction-free recitation and deep understanding. Features authentic bundled Uthmani, IndoPak, and Imla'i typography, multi-script Tajweed highlighting, Word-by-Word morphology, multilingual offline Tafsir commentary, multi-Qari audio caching, and privacy-first prayer times.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="card-header" style="margin-bottom: 12px;">
+                    <div>
+                        <h3 class="card-title" style="font-size: 1.04rem;">Credits &amp; Developer</h3>
+                        <div style="font-size: 0.82rem; color: var(--text-secondary);">Project authorship and open Quranic resources</div>
+                    </div>
+                </div>
+
+                <div style="display: grid; gap: 10px;">
+                    <div style="padding: 12px 14px; border-radius: 12px; background-color: var(--tile-bg); border: 1px solid var(--border-strong); display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
+                        <div>
+                            <div style="font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); font-weight: 700;">Developer</div>
+                            <div style="font-size: 1.05rem; font-weight: 800; color: var(--text-primary); margin-top: 2px;">Abdullah Karim</div>
+                        </div>
+                        <span class="nav-pill-tag">Creator &amp; Lead Maintainer</span>
+                    </div>
+
+                    <div style="padding: 12px 14px; border-radius: 12px; background-color: var(--tile-bg); border: 1px solid var(--border-color); font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">
+                        <strong style="color: var(--text-primary); display: block; margin-bottom: 4px;">Quranic Data &amp; Typography Attributions</strong>
+                        Script data, Tajweed rules, and Word-by-Word morphology powered by Quran.com API v4; audio recitations via EveryAyah and Islamic Network; bundled static fonts from KFGQPC Hafs, QuranWBW IndoPak Nastaleeq, Google Noto Naskh Arabic, Amiri, and Plus Jakarta Sans; prayer timing verification via Aladhan API.
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header" style="margin-bottom: 10px;">
+                    <div>
+                        <h3 class="card-title" style="font-size: 1.04rem;">Source Code &amp; GitHub Repository</h3>
+                        <div style="font-size: 0.82rem; color: var(--text-secondary);">Follow updates, download APK releases, or contribute</div>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding: 12px 14px; border-radius: 12px; background-color: var(--tile-bg); border: 1px solid var(--border-color);">
+                    <div style="min-width: 0;">
+                        <div style="font-weight: 700; color: var(--text-primary); font-size: 0.92rem;">AbdullahKarim / Quran-Explorer</div>
+                        <div style="font-size: 0.78rem; color: var(--text-muted); overflow-wrap: anywhere; margin-top: 2px;">https://github.com/AbdullahKarim/Quran-Explorer</div>
+                    </div>
+                    <a class="btn btn-primary btn-sm" id="aboutGithubLink" href="https://github.com/AbdullahKarim/Quran-Explorer" target="_blank" rel="noopener noreferrer" style="text-decoration: none;">
+                        <svg class="app-icon"><use href="#icon-github"/></svg>
+                        <span>Open GitHub</span>
+                        <svg class="app-icon" style="width: 0.95em; height: 0.95em;"><use href="#icon-external-link"/></svg>
+                    </a>
+                </div>
+            </div>
+
+            <div class="card" style="text-align: center; padding: 14px 16px;">
+                <div style="font-size: 0.86rem; font-weight: 700; color: var(--gold);">Copyright &copy; 2026 Abdullah Karim</div>
+                <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 4px;">Quran Explorer &middot; Offline Edition v3.5 (Build 24)</div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- AUDIO RECITATION OPTION MODAL -->
+    <div class="audio-prompt-overlay" id="audioPromptModal">
+        <div class="audio-prompt-box">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px;">
+                <div>
+                    <div style="font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold);">Audio Recitation</div>
+                    <h3 id="promptSurahTitle" style="font-size: 1.2rem; font-weight: 800; margin-top: 2px;">Surah</h3>
+                    <div id="promptSurahSub" style="font-size: 0.84rem; color: var(--text-secondary);">Choose offline playback or stream</div>
+                </div>
+                <button class="inline-drawer-close" id="promptCloseBtn" type="button" aria-label="Close modal">
+                    <svg class="app-icon"><use href="#icon-times"/></svg>
+                </button>
+            </div>
+
+            <div style="background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 12px; margin-bottom: 14px;">
+                <label class="form-label" for="promptReciterSelect">Reciter</label>
+                <select id="promptReciterSelect" class="form-select"></select>
+                <div id="promptOfflineStatusBadge" style="margin-top: 8px; font-size: 0.8rem; display: flex; align-items: center; gap: 6px;"></div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <button type="button" class="btn btn-primary" id="promptDownloadAndPlayBtn">
+                    <svg class="app-icon"><use href="#icon-download"/></svg>
+                    <span id="promptDownloadBtnText">Download Surah &amp; Play</span>
+                </button>
+                <button type="button" class="btn btn-secondary" id="promptPlayOnlineBtn">
+                    <svg class="app-icon"><use href="#icon-play"/></svg>
+                    <span>Stream Audio</span>
+                </button>
+            </div>
+
+            <div class="surah-dl-progress-bar" id="promptDlProgressBar" style="margin-top: 10px;">
+                <div class="surah-dl-progress-fill" id="promptDlProgressFill"></div>
+            </div>
+            <div id="promptDlStatusText" style="font-size: 0.8rem; color: var(--gold); text-align: center; margin-top: 6px; display: none;"></div>
+
+            <div style="margin-top: 12px; display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--text-secondary);">
+                <input type="checkbox" id="promptRememberChoice">
+                <label for="promptRememberChoice">Remember my choice for this session</label>
+            </div>
+        </div>
+    </div>
+
+    <!-- IN-APP CONFIRMATION DIALOG (REPLACES SYSTEM BROWSER ALERTS) -->
+    <div class="audio-prompt-overlay" id="appConfirmModal" aria-hidden="true">
+        <div class="audio-prompt-box app-confirm-box" role="dialog" aria-modal="true" aria-labelledby="appConfirmTitle">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 10px;">
+                <div>
+                    <div style="font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold);">Confirm Action</div>
+                    <h3 id="appConfirmTitle" style="font-size: 1.12rem; font-weight: 800; margin-top: 2px; color: var(--text-primary);">Are you sure?</h3>
+                </div>
+                <button class="inline-drawer-close" id="appConfirmCloseBtn" type="button" aria-label="Cancel dialog">
+                    <svg class="app-icon"><use href="#icon-times"/></svg>
+                </button>
+            </div>
+            <p id="appConfirmMessage" style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 16px;"></p>
+            <div style="display: flex; justify-content: flex-end; gap: 8px; flex-wrap: wrap;">
+                <button type="button" class="btn btn-secondary btn-sm" id="appConfirmCancelBtn">Cancel</button>
+                <button type="button" class="btn btn-primary btn-sm" id="appConfirmOkBtn">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FIXED BOTTOM AUDIO PLAYER BAR -->
+    <div class="bottom-audio-bar" id="bottomAudioBar">
+        <div class="audio-info">
+            <div class="audio-title" id="audioTitle">Al-Fatihah</div>
+            <div class="audio-subtitle" id="audioSubtitle">Verse 1</div>
+        </div>
+
+        <div class="audio-controls">
+            <button class="audio-btn" id="prevVerseBtn" type="button" title="Previous Ayah" aria-label="Previous Ayah">
+                <svg class="app-icon"><use href="#icon-step-backward"/></svg>
+            </button>
+            <button class="audio-btn play-btn" id="playPauseBtn" type="button" title="Play or Pause" aria-label="Play or Pause">
+                <svg class="app-icon" id="playIcon"><use href="#icon-play"/></svg>
+            </button>
+            <button class="audio-btn" id="nextVerseBtn" type="button" title="Next Ayah" aria-label="Next Ayah">
+                <svg class="app-icon"><use href="#icon-step-forward"/></svg>
+            </button>
+            <button class="audio-btn" id="repeatBtn" type="button" title="Repeat Ayah" aria-label="Repeat Ayah">
+                <svg class="app-icon"><use href="#icon-redo"/></svg>
+            </button>
+            <button class="audio-btn" id="barDownloadBtn" type="button" title="Download Active Surah" aria-label="Download Active Surah">
+                <svg class="app-icon"><use href="#icon-download"/></svg>
+            </button>
+        </div>
+
+        <div class="audio-progress-container">
+            <div class="audio-progress" id="audioProgress">
+                <div class="audio-progress-fill" id="audioProgressFill"></div>
+            </div>
+            <div class="audio-time">
+                <span id="audioCurrentTime">0:00</span>
+                <span id="audioDuration">0:00</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- GO TO TOP BUTTON -->
+    <button class="go-top-btn" id="goTopBtn" type="button" title="Scroll to Top" aria-label="Scroll to Top">
+        <svg class="app-icon"><use href="#icon-arrow-up"/></svg>
+    </button>
+
+    <script src="quran-data.js?v=24"></script>
+    <script src="quran-audio-downloads.js?v=24"></script>
+    <script src="app.js?v=24"></script>
+</body>
+
+</html>
