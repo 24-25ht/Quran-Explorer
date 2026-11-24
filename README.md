@@ -1,6 +1,6 @@
 # Quran Explorer
 
-*This app was porter as a final upgrade for [Gen 2 legacy](https://github.com/rabayakhanam82-a11y/Quran-Exploer)
+*This app was ported as a final upgrade for [Gen 2 legacy](https://github.com/rabayakhanam82-a11y/Quran-Exploer)*
  
 
 <div align="center">
