@@ -6,12 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Quran Explorer - Complete Offline Quranic Application</title>
     <meta name="theme-color" content="#070C10">
-    <link rel="stylesheet" href="styles.css?v=24">
+    <link rel="stylesheet" href="styles.css?v=25">
     <script>
         (function () {
             try {
                 var m = /(?:^|\?|&)appbuild=(\d+)/.exec(location.search || '');
-                var APP_BUILD = m ? m[1] : '24';
+                var APP_BUILD = m ? m[1] : '25';
                 var prev = localStorage.getItem('app_build');
                 if (prev !== APP_BUILD) {
                     localStorage.setItem('app_build_purged', prev || 'none');
@@ -316,7 +316,7 @@
         </div>
 
         <div class="quick-footer-row">
-            <span style="font-size: 0.74rem; color: var(--text-muted); font-weight: 700;">v3.5 · Build 24</span>
+            <span style="font-size: 0.74rem; color: var(--text-muted); font-weight: 700;">v3.5</span>
             <div style="display: flex; gap: 6px; flex-wrap: wrap;">
                 <button type="button" class="btn btn-primary btn-sm" id="quickAllSettingsBtn">
                     <svg class="app-icon"><use href="#icon-cog"/></svg>
@@ -409,7 +409,7 @@
 
         <div class="sidebar-footer">
             <span>Quran Explorer v3.5</span>
-            <span style="color: var(--gold); font-weight: 700;">Build 24</span>
+            <span style="color: var(--gold); font-weight: 700;">Offline Studio</span>
         </div>
     </nav>
 
@@ -1579,7 +1579,7 @@
                         </div>
                         <div>
                             <h2 class="card-title" style="margin: 0;">Quran Explorer</h2>
-                            <div style="font-size: 0.82rem; color: var(--gold); font-weight: 700; margin-top: 2px;">Version 3.5 · Build 24 (Generation 3)</div>
+                            <div style="font-size: 0.82rem; color: var(--gold); font-weight: 700; margin-top: 2px;">Version 3.5 (Generation 3)</div>
                         </div>
                     </div>
                     <button class="btn btn-secondary btn-sm" type="button" onclick="showSection('releases')">
@@ -1588,7 +1588,7 @@
                     </button>
                 </div>
                 <p style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.65;">
-                    An offline-first Holy Quran study companion engineered for distraction-free recitation and deep understanding. Features authentic bundled Uthmani, IndoPak, and Imla'i typography, multi-script Tajweed highlighting, Word-by-Word morphology, multilingual offline Tafsir commentary, multi-Qari audio caching, and privacy-first prayer times.
+                    An offline-first Holy Quran study companion engineered for distraction-free recitation and deep understanding. Features authentic bundled Uthmani, IndoPak, and Imla'i typography, multi-script Tajweed highlighting, Word-by-Word morphology, multilingual offline Tafsir commentary, split per-Ayah audio caching with native Android lockscreen controls, and privacy-first prayer times.
                 </p>
             </div>
 
@@ -1638,7 +1638,7 @@
 
             <div class="card" style="text-align: center; padding: 14px 16px;">
                 <div style="font-size: 0.86rem; font-weight: 700; color: var(--gold);">Copyright &copy; 2026 Abdullah Karim</div>
-                <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 4px;">Quran Explorer &middot; Offline Edition v3.5 (Build 24)</div>
+                <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 4px;">Quran Explorer &middot; Offline Edition v3.5</div>
             </div>
         </section>
 
@@ -1727,9 +1727,6 @@
             <button class="audio-btn" id="repeatBtn" type="button" title="Repeat Ayah" aria-label="Repeat Ayah">
                 <svg class="app-icon"><use href="#icon-redo"/></svg>
             </button>
-            <button class="audio-btn" id="barDownloadBtn" type="button" title="Download Active Surah" aria-label="Download Active Surah">
-                <svg class="app-icon"><use href="#icon-download"/></svg>
-            </button>
         </div>
 
         <div class="audio-progress-container">
@@ -1748,9 +1745,9 @@
         <svg class="app-icon"><use href="#icon-arrow-up"/></svg>
     </button>
 
-    <script src="quran-data.js?v=24"></script>
-    <script src="quran-audio-downloads.js?v=24"></script>
-    <script src="app.js?v=24"></script>
+    <script src="quran-data.js?v=25"></script>
+    <script src="quran-audio-downloads.js?v=25"></script>
+    <script src="app.js?v=25"></script>
 </body>
 
 </html>

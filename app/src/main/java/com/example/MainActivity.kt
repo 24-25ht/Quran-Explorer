@@ -121,6 +121,8 @@ class MainActivity : ComponentActivity() {
   private var activeTimeoutRunnable: Runnable? = null
 
   private lateinit var locationPermissionLauncher: ActivityResultLauncher<String>
+  private lateinit var notificationPermissionLauncher: ActivityResultLauncher<String>
+  private var notificationPermissionPrompted = false
 
   private fun applyNativeSystemBars(mode: String) {
     if (isFinishing || isDestroyed) return
@@ -377,6 +379,22 @@ class MainActivity : ComponentActivity() {
       }
     }
 
+    notificationPermissionLauncher = registerForActivityResult(
+      ActivityResultContracts.RequestPermission()
+    ) { _ ->
+      // Notification service works gracefully regardless of user grant/deny
+    }
+
+    MediaPlaybackService.setActionListener { action, seekMs ->
+      val wv = webView ?: return@setActionListener
+      if (action == "seek" && seekMs >= 0L) {
+        wv.evaluateJavascript("window.onNativeMediaSeek && window.onNativeMediaSeek($seekMs);", null)
+      } else {
+        val safeAction = JSONObject.quote(action)
+        wv.evaluateJavascript("window.onNativeMediaAction && window.onNativeMediaAction($safeAction);", null)
+      }
+    }
+
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
       WebView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG)
     }
@@ -495,7 +513,36 @@ class MainActivity : ComponentActivity() {
               activeThemeMode = newMode
               prefs.edit().putString(KEY_THEME_MODE, newMode).apply()
             },
-            onRequestTemporaryLocation = { startTemporaryLocationLookup() }
+            onRequestTemporaryLocation = { startTemporaryLocationLookup() },
+            onUpdateMediaNotification = { surah, verse, surahName, surahArabic, reciterName, isPlaying, positionMs, durationMs, playbackRate ->
+              if (isPlaying && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && !notificationPermissionPrompted) {
+                val hasNotifPerm = ContextCompat.checkSelfPermission(
+                  this@MainActivity,
+                  Manifest.permission.POST_NOTIFICATIONS
+                ) == PackageManager.PERMISSION_GRANTED
+                if (!hasNotifPerm) {
+                  notificationPermissionPrompted = true
+                  try {
+                    notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                  } catch (_: Throwable) {}
+                }
+              }
+              MediaPlaybackService.startOrUpdate(
+                context = this@MainActivity,
+                surah = surah,
+                verse = verse,
+                surahName = surahName,
+                surahArabic = surahArabic,
+                reciterName = reciterName,
+                isPlaying = isPlaying,
+                positionMs = positionMs,
+                durationMs = durationMs,
+                playbackRate = playbackRate.toFloat()
+              )
+            },
+            onStopMediaNotification = {
+              MediaPlaybackService.stop(this@MainActivity)
+            }
           )
 
           AnimatedVisibility(
@@ -511,6 +558,10 @@ class MainActivity : ComponentActivity() {
 
   override fun onDestroy() {
     cleanupLocationRequests()
+    MediaPlaybackService.setActionListener(null)
+    if (isFinishing) {
+      MediaPlaybackService.stop(this)
+    }
     geocodeExecutor.shutdownNow()
     super.onDestroy()
   }
@@ -547,6 +598,41 @@ class AndroidLocationBridge(
   }
 }
 
+class AndroidMediaBridge(
+  private val onUpdate: (
+    surah: Int,
+    verse: Int,
+    surahName: String,
+    surahArabic: String,
+    reciterName: String,
+    isPlaying: Boolean,
+    positionMs: Long,
+    durationMs: Long,
+    playbackRate: Double
+  ) -> Unit,
+  private val onStop: () -> Unit
+) {
+  @JavascriptInterface
+  fun updateMediaState(
+    surah: Int,
+    verse: Int,
+    surahName: String,
+    surahArabic: String,
+    reciterName: String,
+    isPlaying: Boolean,
+    positionMs: Long,
+    durationMs: Long,
+    playbackRate: Double
+  ) {
+    onUpdate(surah, verse, surahName, surahArabic, reciterName, isPlaying, positionMs, durationMs, playbackRate)
+  }
+
+  @JavascriptInterface
+  fun stopMediaNotification() {
+    onStop()
+  }
+}
+
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
 fun QuranWebView(
@@ -556,6 +642,8 @@ fun QuranWebView(
   onPageReady: () -> Unit = {},
   onThemeModeChanged: (String) -> Unit = {},
   onRequestTemporaryLocation: () -> Unit = {},
+  onUpdateMediaNotification: (Int, Int, String, String, String, Boolean, Long, Long, Double) -> Unit = { _, _, _, _, _, _, _, _, _ -> },
+  onStopMediaNotification: () -> Unit = {},
   modifier: Modifier = Modifier
 ) {
   AndroidView(
@@ -595,6 +683,17 @@ fun QuranWebView(
             post { onRequestTemporaryLocation() }
           },
           "AndroidLocationBridge"
+        )
+        addJavascriptInterface(
+          AndroidMediaBridge(
+            onUpdate = { s, v, sName, sAr, rec, playing, posMs, durMs, rate ->
+              post { onUpdateMediaNotification(s, v, sName, sAr, rec, playing, posMs, durMs, rate) }
+            },
+            onStop = {
+              post { onStopMediaNotification() }
+            }
+          ),
+          "AndroidMediaBridge"
         )
 
         webChromeClient = object : WebChromeClient() {

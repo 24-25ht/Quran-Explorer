@@ -4,6 +4,21 @@
 (function (window) {
   'use strict';
 
+  function getGlobalAyahNumber(surahNum, verseNum) {
+    const s = Number(surahNum) || 1;
+    const v = Number(verseNum) || 1;
+    const surahs = (window.OfflineQuranDB && typeof window.OfflineQuranDB.getSurahs === 'function')
+      ? window.OfflineQuranDB.getSurahs()
+      : null;
+    if (!Array.isArray(surahs) || !surahs.length) return v;
+    let offset = 0;
+    for (let i = 0; i < surahs.length; i++) {
+      if (Number(surahs[i].number) === s) break;
+      offset += Number(surahs[i].verses) || 0;
+    }
+    return offset + v;
+  }
+
   // ========== RECITERS CATALOG ==========
   const RECITERS = [
     {
@@ -15,7 +30,8 @@
       style: "Hafs 'an 'Asim (Clear & Melodious)",
       surahUrl: (num) => `https://server8.mp3quran.net/afs/${String(num).padStart(3, '0')}.mp3`,
       surahBackupUrl: (num) => `https://cdn.islamic.network/quran/audio-surah/128/ar.alafasy/${num}.mp3`,
-      ayahUrl: (s, a) => `https://everyayah.com/data/Alafasy_128kbps/${String(s).padStart(3, '0')}${String(a).padStart(3, '0')}.mp3`
+      ayahUrl: (s, a) => `https://everyayah.com/data/Alafasy_128kbps/${String(s).padStart(3, '0')}${String(a).padStart(3, '0')}.mp3`,
+      ayahBackupUrl: (s, a) => `https://cdn.islamic.network/quran/audio/128/ar.alafasy/${getGlobalAyahNumber(s, a)}.mp3`
     },
     {
       id: 'ar.abdulbasitmurattal',
@@ -26,7 +42,8 @@
       style: 'Murattal (Classic & Reverent)',
       surahUrl: (num) => `https://server7.mp3quran.net/basit/${String(num).padStart(3, '0')}.mp3`,
       surahBackupUrl: (num) => `https://cdn.islamic.network/quran/audio-surah/128/ar.abdulbasitmurattal/${num}.mp3`,
-      ayahUrl: (s, a) => `https://everyayah.com/data/Abdul_Basit_Murattal_192kbps/${String(s).padStart(3, '0')}${String(a).padStart(3, '0')}.mp3`
+      ayahUrl: (s, a) => `https://everyayah.com/data/Abdul_Basit_Murattal_192kbps/${String(s).padStart(3, '0')}${String(a).padStart(3, '0')}.mp3`,
+      ayahBackupUrl: (s, a) => `https://cdn.islamic.network/quran/audio/128/ar.abdulbasitmurattal/${getGlobalAyahNumber(s, a)}.mp3`
     },
     {
       id: 'ar.husary',
@@ -37,7 +54,8 @@
       style: 'Tajweed Master (Ideal for Learning)',
       surahUrl: (num) => `https://server13.mp3quran.net/husr/${String(num).padStart(3, '0')}.mp3`,
       surahBackupUrl: (num) => `https://server13.mp3quran.net/husr/${String(num).padStart(3, '0')}.mp3`,
-      ayahUrl: (s, a) => `https://everyayah.com/data/Husary_128kbps/${String(s).padStart(3, '0')}${String(a).padStart(3, '0')}.mp3`
+      ayahUrl: (s, a) => `https://everyayah.com/data/Husary_128kbps/${String(s).padStart(3, '0')}${String(a).padStart(3, '0')}.mp3`,
+      ayahBackupUrl: (s, a) => `https://cdn.islamic.network/quran/audio/128/ar.husary/${getGlobalAyahNumber(s, a)}.mp3`
     },
     {
       id: 'ar.saadalghamidi',
@@ -48,7 +66,8 @@
       style: 'Heartfelt & Serene Recitation',
       surahUrl: (num) => `https://server7.mp3quran.net/s_gmd/${String(num).padStart(3, '0')}.mp3`,
       surahBackupUrl: (num) => `https://server7.mp3quran.net/s_gmd/${String(num).padStart(3, '0')}.mp3`,
-      ayahUrl: (s, a) => `https://everyayah.com/data/Ghamadi_40kbps/${String(s).padStart(3, '0')}${String(a).padStart(3, '0')}.mp3`
+      ayahUrl: (s, a) => `https://everyayah.com/data/Ghamadi_40kbps/${String(s).padStart(3, '0')}${String(a).padStart(3, '0')}.mp3`,
+      ayahBackupUrl: (s, a) => `https://verses.quran.com/Ghamadi_40kbps/${String(s).padStart(3, '0')}${String(a).padStart(3, '0')}.mp3`
     },
     {
       id: 'ar.minshawi',
@@ -59,7 +78,8 @@
       style: 'Soul-Stirring Classical Murattal',
       surahUrl: (num) => `https://server10.mp3quran.net/minsh/${String(num).padStart(3, '0')}.mp3`,
       surahBackupUrl: (num) => `https://server10.mp3quran.net/minsh/${String(num).padStart(3, '0')}.mp3`,
-      ayahUrl: (s, a) => `https://everyayah.com/data/Minshawy_Murattal_128kbps/${String(s).padStart(3, '0')}${String(a).padStart(3, '0')}.mp3`
+      ayahUrl: (s, a) => `https://everyayah.com/data/Minshawy_Murattal_128kbps/${String(s).padStart(3, '0')}${String(a).padStart(3, '0')}.mp3`,
+      ayahBackupUrl: (s, a) => `https://cdn.islamic.network/quran/audio/128/ar.minshawi/${getGlobalAyahNumber(s, a)}.mp3`
     },
     {
       id: 'ar.shaatree',
@@ -70,7 +90,8 @@
       style: 'Expressive & Melodic Tartil',
       surahUrl: (num) => `https://server11.mp3quran.net/shatri/${String(num).padStart(3, '0')}.mp3`,
       surahBackupUrl: (num) => `https://server11.mp3quran.net/shatri/${String(num).padStart(3, '0')}.mp3`,
-      ayahUrl: (s, a) => `https://everyayah.com/data/Alafasy_128kbps/${String(s).padStart(3, '0')}${String(a).padStart(3, '0')}.mp3`
+      ayahUrl: (s, a) => `https://everyayah.com/data/Abu_Bakr_Ash-Shaatree_128kbps/${String(s).padStart(3, '0')}${String(a).padStart(3, '0')}.mp3`,
+      ayahBackupUrl: (s, a) => `https://cdn.islamic.network/quran/audio/128/ar.shaatree/${getGlobalAyahNumber(s, a)}.mp3`
     }
   ];
 
@@ -160,12 +181,15 @@
           return;
         }
 
-        const request = window.indexedDB.open(this.dbName, 5);
+        const request = window.indexedDB.open(this.dbName, 6);
 
         request.onupgradeneeded = (e) => {
           const db = e.target.result;
           if (!db.objectStoreNames.contains('audio_surahs')) {
             db.createObjectStore('audio_surahs', { keyPath: 'id' });
+          }
+          if (!db.objectStoreNames.contains('ayah_audio')) {
+            db.createObjectStore('ayah_audio', { keyPath: 'id' });
           }
           if (!db.objectStoreNames.contains('translations')) {
             db.createObjectStore('translations', { keyPath: 'id' });
@@ -210,6 +234,10 @@
       return `${reciterId}_${Number(surahNum)}`;
     }
 
+    getAyahAudioKey(reciterId, surahNum, verseNum) {
+      return `${reciterId}_${Number(surahNum)}_${Number(verseNum)}`;
+    }
+
     async isSurahDownloaded(reciterId, surahNum) {
       const db = await this.ensureReady();
       if (!db) return false;
@@ -219,7 +247,7 @@
           const tx = db.transaction('audio_surahs', 'readonly');
           const store = tx.objectStore('audio_surahs');
           const req = store.get(this.getAudioKey(reciterId, surahNum));
-          req.onsuccess = () => resolve(!!req.result);
+          req.onsuccess = () => resolve(!!(req.result && req.result.mode === 'ayahs'));
           req.onerror = () => resolve(false);
         } catch (_) {
           resolve(false);
@@ -243,7 +271,7 @@
           const req = store.getAll();
           req.onsuccess = () => {
             const list = (req.result || [])
-              .filter(item => item.reciterId === reciterId)
+              .filter(item => item.reciterId === reciterId && item.mode === 'ayahs')
               .map(item => Number(item.surahNum));
             resolve(list);
           };
@@ -289,14 +317,104 @@
             id,
             reciterId,
             surahNum: Number(surahNum),
+            mode: 'legacy',
             blob,
-            size: size || blob.size,
+            size: size || (blob ? blob.size : 0),
             date: Date.now()
           });
           tx.oncomplete = () => resolve(true);
           tx.onerror = (e) => reject(e);
         } catch (err) {
           reject(err);
+        }
+      });
+    }
+
+    async saveSurahSplitManifest(reciterId, surahNum, versesCount, totalBytes) {
+      const db = await this.ensureReady();
+      if (!db) return false;
+
+      return new Promise((resolve, reject) => {
+        try {
+          const tx = db.transaction('audio_surahs', 'readwrite');
+          const store = tx.objectStore('audio_surahs');
+          const id = this.getAudioKey(reciterId, surahNum);
+          store.put({
+            id,
+            reciterId,
+            surahNum: Number(surahNum),
+            mode: 'ayahs',
+            versesCount: Number(versesCount),
+            size: Number(totalBytes) || 0,
+            date: Date.now()
+          });
+          tx.oncomplete = () => resolve(true);
+          tx.onerror = (e) => reject(e);
+        } catch (err) {
+          reject(err);
+        }
+      });
+    }
+
+    async saveAyahAudio(reciterId, surahNum, verseNum, blob, size) {
+      const db = await this.ensureReady();
+      if (!db || !db.objectStoreNames.contains('ayah_audio')) return false;
+
+      return new Promise((resolve, reject) => {
+        try {
+          const tx = db.transaction('ayah_audio', 'readwrite');
+          const store = tx.objectStore('ayah_audio');
+          const id = this.getAyahAudioKey(reciterId, surahNum, verseNum);
+          store.put({
+            id,
+            reciterId,
+            surahNum: Number(surahNum),
+            verseNum: Number(verseNum),
+            blob,
+            size: size || (blob ? blob.size : 0),
+            date: Date.now()
+          });
+          tx.oncomplete = () => resolve(true);
+          tx.onerror = (e) => reject(e);
+        } catch (err) {
+          reject(err);
+        }
+      });
+    }
+
+    async getAyahAudioRecord(reciterId, surahNum, verseNum) {
+      const db = await this.ensureReady();
+      if (!db || !db.objectStoreNames.contains('ayah_audio')) return null;
+
+      return new Promise((resolve) => {
+        try {
+          const tx = db.transaction('ayah_audio', 'readonly');
+          const req = tx.objectStore('ayah_audio').get(this.getAyahAudioKey(reciterId, surahNum, verseNum));
+          req.onsuccess = () => resolve(req.result || null);
+          req.onerror = () => resolve(null);
+        } catch (_) {
+          resolve(null);
+        }
+      });
+    }
+
+    async getAyahAudioBlob(reciterId, surahNum, verseNum) {
+      const rec = await this.getAyahAudioRecord(reciterId, surahNum, verseNum);
+      return (rec && rec.blob) ? rec.blob : null;
+    }
+
+    async getAllDownloadedAyahAudio() {
+      const db = await this.ensureReady();
+      if (!db || !db.objectStoreNames.contains('ayah_audio')) return [];
+
+      return new Promise((resolve) => {
+        try {
+          const tx = db.transaction('ayah_audio', 'readonly');
+          const req = tx.objectStore('ayah_audio').getAll();
+          req.onsuccess = () => resolve(req.result || []);
+          req.onerror = () => resolve([]);
+        } catch (_) {
+          resolve([]);
         }
       });
     }
@@ -433,9 +551,20 @@
 
       return new Promise((resolve) => {
         try {
-          const tx = db.transaction('audio_surahs', 'readwrite');
-          const store = tx.objectStore('audio_surahs');
-          store.delete(this.getAudioKey(reciterId, surahNum));
+          const stores = ['audio_surahs'];
+          if (db.objectStoreNames.contains('ayah_audio')) stores.push('ayah_audio');
+          const tx = db.transaction(stores, 'readwrite');
+          tx.objectStore('audio_surahs').delete(this.getAudioKey(reciterId, surahNum));
+          if (db.objectStoreNames.contains('ayah_audio')) {
+            const ayahStore = tx.objectStore('ayah_audio');
+            const prefix = `${reciterId}_${Number(surahNum)}_`;
+            const req = ayahStore.getAllKeys();
+            req.onsuccess = () => {
+              (req.result || []).forEach((k) => {
+                if (typeof k === 'string' && k.startsWith(prefix)) ayahStore.delete(k);
+              });
+            };
+          }
           tx.oncomplete = () => resolve(true);
           tx.onerror = () => resolve(false);
         } catch (_) {
@@ -446,10 +575,14 @@
 
     async getTotalStorageUsage() {
       const allAudio = await this.getAllDownloadedAudio();
-      const audioBytes = allAudio.reduce((acc, item) => acc + (item.size || 0), 0);
+      const legacySurahBytes = allAudio
+        .filter(item => item && item.mode !== 'ayahs')
+        .reduce((acc, item) => acc + (item.size || 0), 0);
+      const allAyahAudio = await this.getAllDownloadedAyahAudio();
+      const ayahBytes = allAyahAudio.reduce((acc, item) => acc + (item.size || 0), 0);
       const tafsirEds = await this.getAllTafsirEditions();
       const tafsirBytes = tafsirEds.reduce((acc, item) => acc + (item.byteSize || 0), 0);
-      return audioBytes + tafsirBytes;
+      return legacySurahBytes + ayahBytes + tafsirBytes;
     }
 
     // Alias for index.html returning formatted string
@@ -645,6 +778,7 @@
       return new Promise((resolve) => {
         try {
           const stores = ['audio_surahs', 'translations', 'tafsir'];
+          if (db.objectStoreNames.contains('ayah_audio')) stores.push('ayah_audio');
           if (db.objectStoreNames.contains('wbw_audio')) stores.push('wbw_audio');
           if (db.objectStoreNames.contains('tafsir_editions')) stores.push('tafsir_editions');
           if (db.objectStoreNames.contains('tafsir_chapters')) stores.push('tafsir_chapters');
@@ -665,19 +799,28 @@
 
       return new Promise((resolve) => {
         try {
-          const tx = db.transaction('audio_surahs', 'readwrite');
-          const store = tx.objectStore('audio_surahs');
-          const req = store.getAll();
+          const stores = ['audio_surahs'];
+          if (db.objectStoreNames.contains('ayah_audio')) stores.push('ayah_audio');
+          const tx = db.transaction(stores, 'readwrite');
+          const surahStore = tx.objectStore('audio_surahs');
+          const req = surahStore.getAllKeys();
+          const prefix = `${reciterId}_`;
           req.onsuccess = () => {
-            const list = req.result || [];
-            list.forEach(item => {
-              if (item.reciterId === reciterId) {
-                store.delete(item.id);
-              }
+            (req.result || []).forEach((k) => {
+              if (typeof k === 'string' && k.startsWith(prefix)) surahStore.delete(k);
             });
-            resolve(true);
           };
-          req.onerror = () => resolve(false);
+          if (db.objectStoreNames.contains('ayah_audio')) {
+            const ayahStore = tx.objectStore('ayah_audio');
+            const req2 = ayahStore.getAllKeys();
+            req2.onsuccess = () => {
+              (req2.result || []).forEach((k) => {
+                if (typeof k === 'string' && k.startsWith(prefix)) ayahStore.delete(k);
+              });
+            };
+          }
+          tx.oncomplete = () => resolve(true);
+          tx.onerror = () => resolve(false);
         } catch (_) {
           resolve(false);
         }
@@ -690,8 +833,10 @@
 
       return new Promise((resolve) => {
         try {
-          const tx = db.transaction('audio_surahs', 'readwrite');
-          tx.objectStore('audio_surahs').clear();
+          const stores = ['audio_surahs'];
+          if (db.objectStoreNames.contains('ayah_audio')) stores.push('ayah_audio');
+          const tx = db.transaction(stores, 'readwrite');
+          stores.forEach(s => tx.objectStore(s).clear());
           tx.oncomplete = () => resolve(true);
           tx.onerror = () => resolve(false);
         } catch (_) {
@@ -724,12 +869,15 @@
     clearAllData: () => offlineStorage.clearAllData(),
     clearAllAudio: () => offlineStorage.clearAllAudio(),
 
-    // Core download method returning Promise
+    // Core per-Ayah split download method returning Promise
     async downloadSurah(reciterId, surahNum, onProgress) {
+      const s = Number(surahNum) || 1;
       const reciter = this.getReciter(reciterId);
-      const primaryUrl = reciter.surahUrl(surahNum);
-      const backupUrl = reciter.surahBackupUrl(surahNum);
-      const downloadKey = `${reciterId}_${surahNum}`;
+      const downloadKey = `${reciterId}_${s}`;
+      const meta = (window.OfflineQuranDB && typeof window.OfflineQuranDB.getSurahMeta === 'function')
+        ? window.OfflineQuranDB.getSurahMeta(s)
+        : null;
+      const versesCount = (meta && Number(meta.verses)) ? Number(meta.verses) : 7;
 
       if (this.activeDownloads.has(downloadKey)) {
         return;
@@ -738,49 +886,69 @@
       this.activeDownloads.set(downloadKey, true);
 
       try {
-        let response = null;
-        try {
-          response = await fetch(primaryUrl);
-          if (!response.ok) throw new Error('Primary CDN status ' + response.status);
-        } catch (e) {
-          console.warn('Primary audio CDN failed, using backup:', e);
-          response = await fetch(backupUrl);
-          if (!response.ok) throw new Error('Backup CDN status ' + response.status);
-        }
+        let completed = 0;
+        let totalBytes = 0;
+        const queue = Array.from({ length: versesCount }, (_, i) => i + 1);
+        const concurrency = Math.min(5, Math.max(1, versesCount));
+        let firstError = null;
 
-        const contentLength = response.headers.get('content-length');
-        const totalBytes = contentLength ? parseInt(contentLength, 10) : 0;
-        let loadedBytes = 0;
+        const downloadSingleAyah = async (v) => {
+          const existing = await offlineStorage.getAyahAudioRecord(reciterId, s, v);
+          if (existing && existing.blob) {
+            totalBytes += existing.size || existing.blob.size || 0;
+            completed++;
+            if (onProgress) {
+              onProgress(completed, versesCount, Math.min(99, Math.round((completed / versesCount) * 100)));
+            }
+            return;
+          }
 
-        if (!response.body || !window.ReadableStream) {
-          if (onProgress) onProgress(0, totalBytes, 50);
+          const primaryUrl = reciter.ayahUrl(s, v);
+          const backupUrl = typeof reciter.ayahBackupUrl === 'function' ? reciter.ayahBackupUrl(s, v) : primaryUrl;
+          let response = null;
+          try {
+            response = await fetch(primaryUrl);
+            if (!response.ok) throw new Error('Primary Ayah CDN HTTP ' + response.status);
+          } catch (e) {
+            response = await fetch(backupUrl);
+            if (!response.ok) throw new Error('Backup Ayah CDN HTTP ' + response.status);
+          }
+
           const blob = await response.blob();
-          await offlineStorage.saveSurahAudio(reciterId, surahNum, blob, blob.size);
-          if (onProgress) onProgress(blob.size, blob.size, 100);
-          this.activeDownloads.delete(downloadKey);
+          if (!blob || blob.size === 0) throw new Error(`Empty audio blob for ${s}:${v}`);
+          await offlineStorage.saveAyahAudio(reciterId, s, v, blob, blob.size);
+          totalBytes += blob.size;
+          completed++;
+          if (onProgress) {
+            onProgress(completed, versesCount, Math.min(99, Math.round((completed / versesCount) * 100)));
+          }
+        };
+
+        const workers = Array.from({ length: concurrency }, async () => {
+          while (queue.length > 0 && !firstError) {
+            if (this.isBatchRunning && this.batchCancelled) return;
+            const verseNum = queue.shift();
+            if (!verseNum) break;
+            try {
+              await downloadSingleAyah(verseNum);
+            } catch (err) {
+              firstError = err;
+              return;
+            }
+          }
+        });
+
+        await Promise.all(workers);
+
+        if (this.isBatchRunning && this.batchCancelled) {
           return;
         }
-
-        const reader = response.body.getReader();
-        const chunks = [];
-
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-
-          chunks.push(value);
-          loadedBytes += value.length;
-
-          if (onProgress) {
-            const pct = totalBytes > 0 ? Math.min(99, Math.round((loadedBytes / totalBytes) * 100)) : 50;
-            onProgress(loadedBytes, totalBytes, pct);
-          }
+        if (firstError) {
+          throw firstError;
         }
 
-        const finalBlob = new Blob(chunks, { type: 'audio/mpeg' });
-        await offlineStorage.saveSurahAudio(reciterId, surahNum, finalBlob, loadedBytes);
-
-        if (onProgress) onProgress(loadedBytes, totalBytes || loadedBytes, 100);
+        await offlineStorage.saveSurahSplitManifest(reciterId, s, versesCount, totalBytes);
+        if (onProgress) onProgress(versesCount, versesCount, 100);
       } catch (err) {
         console.error('Download surah failed:', err);
         throw err;
@@ -877,6 +1045,7 @@
       this.activeBlobUrl = null;
       this.onTimeUpdate = null;
       this.onEnded = null;
+      this._playToken = 0;
 
       this.setupEventListeners();
     }
@@ -885,6 +1054,12 @@
       this.audio.addEventListener('timeupdate', () => {
         if (this.onTimeUpdate && this.audio.duration) {
           this.onTimeUpdate(this.audio.currentTime, this.audio.duration);
+        }
+      });
+
+      this.audio.addEventListener('loadedmetadata', () => {
+        if (this.onTimeUpdate && this.audio.duration) {
+          this.onTimeUpdate(this.audio.currentTime || 0, this.audio.duration);
         }
       });
 
@@ -902,6 +1077,17 @@
       this.audio.addEventListener('pause', () => {
         this.isPlaying = false;
       });
+    }
+
+    hasActiveSource(surahNum, verseNum, reciterId) {
+      return !!(
+        this.audio &&
+        this.audio.src &&
+        !this.audio.ended &&
+        Number(this.currentSurah) === Number(surahNum) &&
+        Number(this.currentVerse) === Number(verseNum) &&
+        String(this.currentReciterId) === String(reciterId || this.currentReciterId)
+      );
     }
 
     getReciter() {
@@ -931,6 +1117,7 @@
         onError = typeof arg5 === 'function' ? arg5 : null;
       }
 
+      const playToken = ++this._playToken;
       this.currentReciterId = reciterId;
       this.currentSurah = Number(surahNum);
       this.currentVerse = Number(verseNum);
@@ -939,29 +1126,33 @@
 
       const reciter = DownloadManager.getReciter(reciterId);
 
-      // Check if full surah is downloaded offline in IndexedDB
-      const isDownloaded = await offlineStorage.isSurahDownloaded(reciterId, this.currentSurah);
-
-      if (isDownloaded) {
-        const blob = await offlineStorage.getSurahAudioBlob(reciterId, this.currentSurah);
-        if (blob) {
+      // 1. Check per-Ayah offline blob in IndexedDB (never hijack with concatenated full-surah MP3)
+      try {
+        const ayahBlob = await offlineStorage.getAyahAudioBlob(reciterId, this.currentSurah, this.currentVerse);
+        if (playToken !== this._playToken) return;
+        if (ayahBlob) {
           if (this.activeBlobUrl) URL.revokeObjectURL(this.activeBlobUrl);
-          this.activeBlobUrl = URL.createObjectURL(blob);
+          this.activeBlobUrl = URL.createObjectURL(ayahBlob);
           this.audio.src = this.activeBlobUrl;
           this.audio.playbackRate = this.playbackRate;
           this.isOffline = true;
           try {
             await this.audio.play();
+            if (playToken !== this._playToken) return;
             this.audio.playbackRate = this.playbackRate;
             this.isPlaying = true;
             return;
           } catch (e) {
-            console.warn('Offline blob playback failed, falling back to stream:', e);
+            console.warn('Offline ayah blob playback failed, trying ayah stream:', e);
           }
         }
+      } catch (e) {
+        console.warn('Ayah offline lookup error:', e);
       }
 
-      // Online stream: high-fidelity verse audio from EveryAyah
+      if (playToken !== this._playToken) return;
+
+      // 2. Online stream: single-Ayah audio from EveryAyah (never unsplit 82-min full-surah stream)
       this.isOffline = false;
       const ayahUrl = reciter.ayahUrl(this.currentSurah, this.currentVerse);
       this.audio.src = ayahUrl;
@@ -969,20 +1160,31 @@
 
       try {
         await this.audio.play();
+        if (playToken !== this._playToken) return;
         this.audio.playbackRate = this.playbackRate;
         this.isPlaying = true;
       } catch (err) {
-        console.warn('Ayah stream failed, trying full surah stream URL:', err);
-        try {
-          this.audio.src = reciter.surahUrl(this.currentSurah);
-          this.audio.playbackRate = this.playbackRate;
-          await this.audio.play();
-          this.audio.playbackRate = this.playbackRate;
-          this.isPlaying = true;
-        } catch (e2) {
-          console.error('All audio sources failed:', e2);
-          if (onError) onError(e2);
+        if (playToken !== this._playToken) return;
+        const backupUrl = typeof reciter.ayahBackupUrl === 'function'
+          ? reciter.ayahBackupUrl(this.currentSurah, this.currentVerse)
+          : null;
+        if (backupUrl && backupUrl !== ayahUrl) {
+          try {
+            this.audio.src = backupUrl;
+            this.audio.playbackRate = this.playbackRate;
+            await this.audio.play();
+            if (playToken !== this._playToken) return;
+            this.audio.playbackRate = this.playbackRate;
+            this.isPlaying = true;
+            return;
+          } catch (e2) {
+            console.error('All single-Ayah audio sources failed:', e2);
+            if (onError) onError(e2);
+            return;
+          }
         }
+        console.error('Single-Ayah audio stream failed:', err);
+        if (onError) onError(err);
       }
     }
 

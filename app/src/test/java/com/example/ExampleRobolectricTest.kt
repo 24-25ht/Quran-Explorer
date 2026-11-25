@@ -38,19 +38,19 @@ class ExampleRobolectricTest {
     val indexResponse = assetLoader.shouldInterceptRequest(android.net.Uri.parse("https://appassets.androidplatform.net/assets/index.html"))
     org.junit.Assert.assertNotNull("index.html must be intercepted", indexResponse)
 
-    val queryResponse = assetLoader.shouldInterceptRequest(android.net.Uri.parse("https://appassets.androidplatform.net/assets/index.html?appbuild=24"))
-    org.junit.Assert.assertNotNull("index.html?appbuild=24 must be intercepted", queryResponse)
+    val queryResponse = assetLoader.shouldInterceptRequest(android.net.Uri.parse("https://appassets.androidplatform.net/assets/index.html?appbuild=25"))
+    org.junit.Assert.assertNotNull("index.html?appbuild=25 must be intercepted", queryResponse)
 
-    val stylesResponse = assetLoader.shouldInterceptRequest(android.net.Uri.parse("https://appassets.androidplatform.net/assets/styles.css?v=24"))
+    val stylesResponse = assetLoader.shouldInterceptRequest(android.net.Uri.parse("https://appassets.androidplatform.net/assets/styles.css?v=25"))
     org.junit.Assert.assertNotNull("styles.css must be intercepted", stylesResponse)
 
-    val appJsResponse = assetLoader.shouldInterceptRequest(android.net.Uri.parse("https://appassets.androidplatform.net/assets/app.js?v=24"))
+    val appJsResponse = assetLoader.shouldInterceptRequest(android.net.Uri.parse("https://appassets.androidplatform.net/assets/app.js?v=25"))
     org.junit.Assert.assertNotNull("app.js must be intercepted", appJsResponse)
 
-    val jsResponse = assetLoader.shouldInterceptRequest(android.net.Uri.parse("https://appassets.androidplatform.net/assets/quran-data.js?v=24"))
+    val jsResponse = assetLoader.shouldInterceptRequest(android.net.Uri.parse("https://appassets.androidplatform.net/assets/quran-data.js?v=25"))
     org.junit.Assert.assertNotNull("quran-data.js must be intercepted", jsResponse)
 
-    val audioJsResponse = assetLoader.shouldInterceptRequest(android.net.Uri.parse("https://appassets.androidplatform.net/assets/quran-audio-downloads.js?v=24"))
+    val audioJsResponse = assetLoader.shouldInterceptRequest(android.net.Uri.parse("https://appassets.androidplatform.net/assets/quran-audio-downloads.js?v=25"))
     org.junit.Assert.assertNotNull("quran-audio-downloads.js must be intercepted", audioJsResponse)
 
     val resourcesLoader = androidx.webkit.WebViewAssetLoader.Builder()
@@ -84,16 +84,20 @@ class ExampleRobolectricTest {
   }
 
   @Test
-  fun `verify least privilege location permission in manifest`() {
+  fun `verify least privilege location and media service in manifest`() {
     val context = ApplicationProvider.getApplicationContext<Context>()
     val packageInfo = context.packageManager.getPackageInfo(
       context.packageName,
-      android.content.pm.PackageManager.GET_PERMISSIONS
+      android.content.pm.PackageManager.GET_PERMISSIONS or android.content.pm.PackageManager.GET_SERVICES
     )
     val permissions = packageInfo.requestedPermissions?.toSet().orEmpty()
     org.junit.Assert.assertTrue(
       "ACCESS_COARSE_LOCATION must be declared",
       permissions.contains(android.Manifest.permission.ACCESS_COARSE_LOCATION)
+    )
+    org.junit.Assert.assertTrue(
+      "FOREGROUND_SERVICE_MEDIA_PLAYBACK must be declared",
+      permissions.contains(android.Manifest.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK)
     )
     org.junit.Assert.assertFalse(
       "ACCESS_FINE_LOCATION should not be requested",
@@ -102,6 +106,14 @@ class ExampleRobolectricTest {
     org.junit.Assert.assertFalse(
       "ACCESS_BACKGROUND_LOCATION should not be requested",
       permissions.contains(android.Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+    )
+    val mediaService = packageInfo.services?.firstOrNull {
+      it.name == MediaPlaybackService::class.java.name
+    }
+    org.junit.Assert.assertNotNull("MediaPlaybackService must be registered in manifest", mediaService)
+    assertEquals(
+      android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK,
+      mediaService!!.foregroundServiceType
     )
   }
 }

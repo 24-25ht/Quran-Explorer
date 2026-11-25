@@ -17,7 +17,7 @@ android {
     applicationId = "com.aistudio.quranexplorer.offline"
     minSdk = 24
     targetSdk = 35
-    versionCode = 24
+    versionCode = 25
     versionName = "3.5"
 
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
