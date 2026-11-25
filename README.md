@@ -7,7 +7,7 @@
 [![Android Version](https://img.shields.io/badge/Android-7.0%2B%20(API%2024%2B)-10C98F?style=for-the-badge&logo=android&logoColor=white)](https://developer.android.com)
 [![Version](https://img.shields.io/badge/Version-v3.5%20(Build%2024)-E5B94C?style=for-the-badge&logo=google-play&logoColor=black)](./RELEASE_NOTES.md)
 [![License](https://img.shields.io/badge/License-MIT-099A6C?style=for-the-badge)](./LICENSE)
-[![Direct APK](https://img.shields.io/badge/APK-Direct%20Download-10C98F?style=for-the-badge&logo=android)](./QuranExplorer.apk)
+[![Direct APK](https://img.shields.io/badge/APK-Direct%20Download-10C98F?style=for-the-badge&logo=android)](https://github.com/24-25ht/Quran-Explorer/releases/download/v3.5-Taurus/QuranExplorer-v3.5.apk)
 [![GitHub Repo](https://img.shields.io/badge/GitHub-Repository-15222E?style=for-the-badge&logo=github&logoColor=white)](https://github.com/AbdullahKarim/Quran-Explorer)
 [![GitHub Repo Legacy](https://img.shields.io/badge/GitHub-Repository-15222E?style=for-the-badge&logo=github&logoColor=white)]([https://github.com/AbdullahKarim/Quran-Explorer](https://github.com/rabayakhanam82-a11y/Quran-Exploer))
 
