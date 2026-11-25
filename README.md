@@ -1,7 +1,6 @@
 # Quran Explorer
 
 *This app was ported as a final upgrade for [Gen 2 legacy](https://github.com/rabayakhanam82-a11y/Quran-Exploer)*
- 
 
 <div align="center">
 
@@ -37,58 +36,43 @@
 
 ## Screenshots
 
-> **Theme disclaimer:** These screenshots were taken in **Warm Sepia** and **Dark Mode**. They will appear the same only if you select the corresponding theme and reading-comfort settings; other settings may change the appearance.
+> **Theme disclaimer:** These screenshots were taken in **Warm Sepia** and **Dark Mode**. They will appear the same only if you select the corresponding theme and reading-comfort settings; other settings may change the app appearance.
 
-<div align="center" style="display:flex; overflow-x:auto; gap:12px; padding:8px 0;">
+The screenshots are arranged in a single-row table. On narrow screens, scroll the table horizontally to browse them.
 
-<img src="./Screenshot_20261124_210424_Quran%20Explorer.jpg" alt="Quran Explorer Screenshot 1" width="190">
-<img src="./Screenshot_20261124_223607_Quran%20Explorer.jpg" alt="Quran Explorer Screenshot 2" width="190">
-<img src="./Screenshot_20261124_223616_Quran%20Explorer.jpg" alt="Quran Explorer Screenshot 3" width="190">
-<img src="./Screenshot_20261124_223624_Quran%20Explorer.jpg" alt="Quran Explorer Screenshot 4" width="190">
-<img src="./Screenshot_20261124_223632_Quran%20Explorer.jpg" alt="Quran Explorer Screenshot 5" width="190">
-<img src="./Screenshot_20261124_223640_Quran%20Explorer.jpg" alt="Quran Explorer Screenshot 6" width="190">
-<img src="./Screenshot_20261124_223651_Quran%20Explorer.jpg" alt="Quran Explorer Screenshot 7" width="190">
-
-</div>
-
-*Swipe or scroll horizontally to browse the screenshots.*
+| Screenshot 1 | Screenshot 2 | Screenshot 3 | Screenshot 4 | Screenshot 5 | Screenshot 6 | Screenshot 7 |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| <img src="./Screenshot_20261124_210424_Quran%20Explorer.jpg" alt="Quran Explorer Screenshot 1" width="190"> | <img src="./Screenshot_20261124_223607_Quran%20Explorer.jpg" alt="Quran Explorer Screenshot 2" width="190"> | <img src="./Screenshot_20261124_223616_Quran%20Explorer.jpg" alt="Quran Explorer Screenshot 3" width="190"> | <img src="./Screenshot_20261124_223624_Quran%20Explorer.jpg" alt="Quran Explorer Screenshot 4" width="190"> | <img src="./Screenshot_20261124_223632_Quran%20Explorer.jpg" alt="Quran Explorer Screenshot 5" width="190"> | <img src="./Screenshot_20261124_223640_Quran%20Explorer.jpg" alt="Quran Explorer Screenshot 6" width="190"> | <img src="./Screenshot_20261124_223651_Quran%20Explorer.jpg" alt="Quran Explorer Screenshot 7" width="190"> |
 
 ---
 
 ## Key Features
 
 ### Obsidian-Emerald, Warm Alabaster & Soft Warm Espresso Sepia
-* **Intentional Color Hierarchy & AA Contrast:** Calibrated dark surfaces (`#070C10` Obsidian canvas, `#0F1821` elevated cards, `#15222E` interactive tiles, `#10C98F` emerald accents, and `#E5B94C` warm gold) for clear emphasis and accessible text.
-* **Soft Warm Espresso Sepia (Dark + Reading Comfort):** Toned-down espresso background (`#15120F`), neutral cream-sand typography (`#EFE6D8`), restrained sage-emerald accents (`#3FA883`), muted gold highlights, and comfortable low-distraction reading surfaces.
-* **Root Theme Viewport Continuity:** Mirrors theme and reading-comfort attributes across both `<html>` and `<body>` with full-height flex layout.
-* **Bundled Offline Arabic & UI Typography:** Ships Plus Jakarta Sans, Uthmanic Hafs, IndoPak Nastaleeq, Noto Naskh Arabic, and full Arabic-capable fallback fonts.
-* **Cohesive Launch Splash:** Custom Jetpack Compose geometric Rub el Hizb splash screen synced to the user's persisted theme with an animated fade-out sequence.
-* **Precision Vector Iconography & Branded Dialogs:** Clean stroke-aligned SVG icons paired with styled in-app confirmation dialogs.
+* **Intentional Color Hierarchy & AA Contrast:** Calibrated dark surfaces (`#070C10` canvas, `#0F1821` elevated cards, `#15222E` interactive tiles, `#10C98F` emerald accents, and `#E5B94C` warm gold).
+* **Soft Warm Espresso Sepia:** Toned-down espresso background (`#15120F`), cream-sand typography (`#EFE6D8`), sage-emerald accents (`#3FA883`), and comfortable reading surfaces.
+* **Root Theme Viewport Continuity:** Mirrors theme and reading-comfort attributes across `<html>` and `<body>` with a full-height flex layout.
+* **Bundled Offline Typography:** Includes Plus Jakarta Sans, Uthmanic Hafs, IndoPak Nastaleeq, Noto Naskh Arabic, and Arabic-capable fallback fonts.
+* **Cohesive Splash & UI:** Custom Jetpack Compose geometric Rub el Hizb splash, precision vector icons, and branded dialogs.
 
 ### Downloads → Alphabetical Multilingual Tafsir Library
-* **Alphabetical Language Grouping:** Browse multilingual tafsirs grouped strictly A-Z by language.
-* **Surah-by-Surah IndexedDB Caching:** Downloads, pauses, resumes, retries, and removes full 114-Surah commentary editions with live progress.
-* **Seamless Reader & Standalone Integration:** Open downloaded or built-in tafsirs inside the inline reader or dedicated Tafsir reader.
+* Browse multilingual tafsirs grouped A–Z by language.
+* Download, pause, resume, retry, and remove complete 114-Surah commentary editions with live progress and IndexedDB caching.
+* Open downloaded or built-in tafsirs in the inline reader or dedicated Tafsir reader.
 
-### Global & Regional Prayer Times + Mini Settings Panel
-* **Timetable-First Layout:** Displays the live next prayer countdown, daily timetable, and prayer tracker toggle immediately at the top.
-* **Dedicated Prayer Mini Settings Drawer:** Includes area detection, online verification, regional presets, calculation methods, and manual controls.
-* **Privacy-First Temporary Coarse GPS:** Uses `ACCESS_COARSE_LOCATION` for a single-shot city-level lookup with timeout fallback.
-* **Fixed Astronomical Solar Math & Hanafi Support:** Supports standard and Hanafi Asr calculations with corrected solar wrap-around arithmetic.
+### Global & Regional Prayer Times
+* Timetable-first layout with next-prayer countdown, daily timetable, and prayer tracker.
+* Prayer settings include area detection, online verification, regional presets, calculation methods, and manual controls.
+* Privacy-first, single-shot coarse GPS lookup with timeout fallback; standard and Hanafi Asr calculations.
 
-### Complete Settings Hub & Reading Personalization
-* **Dedicated Sidebar Settings:** Accessible through Preferences & About and the Quick Settings panel.
-* **Typography, Audio & Commentary Controls:** Configure theme, sepia comfort, Arabic script, font sizes, reciters, and translation preferences.
+### Settings, Search & Navigation
+* Configure theme, sepia comfort, Arabic script, font sizes, reciters, and translation preferences.
+* Search Surah names, transliterations, chapter numbers, `Surah:Ayah` references, and English keywords, with scope and filter controls.
+* Navigate by Juz, Hizb, or page using the tabbed navigator.
 
-### Search, Smart Filtering & Juz / Hizb / Page Navigation
-* **Unified Surah & Ayah Search:** Matches Surah names, transliterations, chapter numbers, `Surah:Ayah` references, and English keywords.
-* **Split Result Sections & Filter Chips:** Separates matching Surahs and Ayahs with scope and filter controls.
-* **Tabbed Navigator:** Jump to any of 30 Juz, 60 Hizb, or 604 Pages.
-
-### Offline Quranic Study, Synced Word-by-Word & Multi-Reciter Audio
-* **Synced Word-by-Word & Quran.com Hydration:** Dedicated Surah/Ayah selectors with per-word Arabic tokens and cached metadata.
-* **Multiple World-Class Qaris:** Includes Mishary Rashid Alafasy, Abdul Basit Abdul Samad, Mahmoud Khalil Al-Husary, Saad Al-Ghamdi, Muhammad Siddiq Al-Minshawi, and Abu Bakr Al-Shatri.
-* **Tajweed & Progress Tracking:** Basic and full-color Tajweed highlighting, prayer tracker, reading streak, and Quran completion meter.
+### Offline Quranic Study & Audio
+* Synced word-by-word study with cached Quran.com metadata.
+* Multiple reciters, Tajweed highlighting, prayer tracking, reading streaks, and Quran completion meter.
 
 ---
 
@@ -102,19 +86,15 @@ QuranExplorer/
 │   │   ├── java/com/example/
 │   │   │   ├── MainActivity.kt          # Edge-to-Edge Compose host, Splash & Location Bridge
 │   │   │   └── ui/theme/                # Material 3 Color.kt & Theme.kt
-│   │   ├── res/
-│   │   │   ├── font/                    # Bundled Arabic and UI fonts
-│   │   │   └── values/themes.xml        # Obsidian window/bar configuration
+│   │   ├── res/                         # Fonts and window/bar themes
 │   │   └── assets/
-│   │       ├── index.html               # Modular HTML shell, Prayer/Tafsir UI & SVG sprite
-│   │       ├── styles.css               # Obsidian-Emerald, Espresso Sepia & responsive CSS
-│   │       ├── app.js                   # UI, Tafsir reader, Tajweed, GPS prayers & search
-│   │       ├── quran-data.js            # Offline Quran index, prayer math & regional catalog
-│   │       └── quran-audio-downloads.js # IndexedDB audio and Tafsir cache engine
+│   │       ├── index.html               # Modular HTML shell and UI
+│   │       ├── styles.css               # Theme and responsive styles
+│   │       ├── app.js                   # UI, readers, Tajweed, prayers & search
+│   │       ├── quran-data.js            # Offline Quran index and prayer math
+│   │       └── quran-audio-downloads.js # IndexedDB audio and Tafsir cache
 │   └── build.gradle.kts                 # versionCode 24, versionName "3.5"
 ├── apk/
-│   ├── QuranExplorer-latest.apk
-│   └── QuranExplorer-v3.5.apk
 ├── QuranExplorer.apk
 ├── RELEASE_NOTES.md
 └── README.md
