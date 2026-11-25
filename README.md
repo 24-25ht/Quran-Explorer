@@ -37,7 +37,7 @@
 
 ## Screenshots
 
-> **Theme disclaimer:** These screenshots were taken in **Warm Sepia** and **Dark Mode**. They will appear the same only if you select the corresponding theme and reading-comfort settings; other settings may change the app appearance.
+> **Theme disclaimer:** These screenshots were taken in **Warm Sepia** and **Dark Mode** in the latest available version. They will appear the same only if you select the corresponding theme and reading-comfort settings and are updated; other settings may change the app appearance.
 
 The screenshots are arranged in a single-row table. On narrow screens, scroll the table horizontally to browse them.
 
